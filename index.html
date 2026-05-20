@@ -285,11 +285,9 @@ let currentFilter = 'all';
 function loadRoster() {
   try {
     const raw = localStorage.getItem('posse-roster-v1');
-    if (raw) {
-      roster = JSON.parse(raw);
-      updateRosterUI();
-    }
+    if (raw) roster = JSON.parse(raw);
   } catch(e) {}
+  updateRosterUI();
 }
 
 function saveRoster() {
