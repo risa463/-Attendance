@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>出欠管理ツール</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F7F5;
+  --surface:#FFFFFF;
+  --surface2:#F1F0EC;
+  --border:#E2E0D8;
+  --border2:#CCCBC3;
+  --text:#1A1A18;
+  --text2:#6B6A65;
+  --text3:#A09F9A;
+  --teal:#1D9E75;
+  --teal-bg:#E1F5EE;
+  --teal-text:#085041;
+  --red-bg:#FCEBEB;
+  --red-text:#791F1F;
+  --amber-bg:#FAEEDA;
+  --amber-text:#633806;
+  --mono:'Courier New',monospace;
+  --radius:10px;
+  --radius-sm:7px;
+}
+body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6}
+.app{max-width:780px;margin:0 auto;padding:0 0 60px}
+
+/* header */
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:10}
+.header-icon{width:38px;height:38px;background:var(--teal-bg);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.header-title{font-size:15px;font-weight:600;color:var(--text)}
+.header-sub{font-size:11px;color:var(--text3);margin-top:1px}
+.roster-count{margin-left:auto;background:var(--teal-bg);color:var(--teal-text);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500}
+
+/* nav */
+.nav{background:var(--surface);border-bottom:1px solid var(--border);display:flex;padding:0 24px;gap:0;overflow-x:auto}
+.nav-btn{padding:12px 20px;font-size:13px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:7px;white-space:nowrap;font-family:inherit;transition:color .15s,border-color .15s}
+.nav-btn:hover{color:var(--text)}
+.nav-btn.on{color:var(--teal);border-bottom-color:var(--teal);font-weight:500}
+
+/* body */
+.body{padding:24px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;margin-bottom:16px}
+.section-label{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+
+/* buttons */
+.btn-primary{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;background:var(--teal);border:none;border-radius:var(--radius-sm);color:#fff;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:opacity .15s}
+.btn-primary:hover{opacity:.87}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed}
+.btn-ghost{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:none;border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text2);font-size:13px;font-family:inherit;cursor:pointer;transition:background .15s}
+.btn-ghost:hover{background:var(--surface2)}
+.btn-sm{padding:6px 14px;font-size:12px}
+
+/* inputs */
+input[type=text],textarea{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:inherit;font-size:13px;padding:9px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus,textarea:focus{border-color:var(--teal)}
+textarea{resize:vertical;line-height:1.8}
+.mono{font-family:var(--mono);font-size:12.5px}
+
+/* pills */
+.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.02em}
+.pill-s{background:var(--teal-bg);color:var(--teal-text)}
+.pill-a{background:var(--red-bg);color:var(--red-text)}
+.pill-u{background:#F1EFE8;color:#444441}
+
+/* alerts */
+.alert{border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;display:flex;align-items:flex-start;gap:8px;line-height:1.7;margin-bottom:14px}
+.alert-warn{background:var(--amber-bg);border:1px solid #EF9F27;color:var(--amber-text)}
+.alert-info{background:var(--teal-bg);border:1px solid #5DCAA5;color:var(--teal-text)}
+.alert-err{background:var(--red-bg);border:1px solid #F09595;color:var(--red-text)}
+
+/* stats */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.stat{background:var(--surface2);border-radius:var(--radius-sm);padding:14px 16px;text-align:center;cursor:pointer;border:2px solid transparent;transition:border-color .15s}
+.stat:hover{border-color:var(--border2)}
+.stat.active-s{border-color:var(--teal)}
+.stat.active-a{border-color:#E24B4A}
+.stat.active-all{border-color:var(--border2)}
+.stat-num{font-size:28px;font-weight:600;line-height:1.1;margin-bottom:4px}
+.stat-lbl{font-size:11px;color:var(--text3)}
+
+/* attendance list */
+.att-list{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.att-list-header{padding:10px 16px;background:var(--surface2);border-bottom:1px solid var(--border);display:grid;grid-template-columns:36px 1fr 80px;gap:0}
+.att-list-header span{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.07em;text-transform:uppercase}
+.att-row{display:grid;grid-template-columns:36px 1fr 80px;gap:0;border-bottom:1px solid var(--border);align-items:center}
+.att-row:last-child{border-bottom:none}
+.att-row:hover{background:var(--surface2)}
+.att-idx{font-size:11px;color:var(--text3);padding:10px 0 10px 12px;font-family:var(--mono)}
+.att-name{font-size:13px;padding:10px 8px;color:var(--text)}
+.att-status{padding:10px 12px 10px 0;text-align:right}
+
+/* search */
+.search-wrap{padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface2)}
+.search-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 12px;font-size:13px;font-family:inherit;color:var(--text);outline:none;transition:border-color .15s}
+.search-input:focus{border-color:var(--teal)}
+
+/* paste area */
+.paste-area{width:100%;min-height:140px;background:var(--surface2);border:1.5px dashed var(--border2);border-radius:var(--radius);padding:14px;font-family:var(--mono);font-size:12px;color:var(--text);resize:vertical;outline:none;transition:border-color .15s;line-height:1.7}
+.paste-area:focus{border-color:var(--teal);border-style:solid;background:var(--surface)}
+.paste-area::placeholder{color:var(--text3)}
+
+/* roster editor */
+.roster-list{background:var(--surface2);border-radius:var(--radius-sm);max-height:320px;overflow-y:auto;border:1px solid var(--border)}
+.roster-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--border);font-size:13px}
+.roster-item:last-child{border-bottom:none}
+.roster-item-num{font-size:11px;color:var(--text3);font-family:var(--mono);min-width:22px}
+
+/* unmatched */
+.unmatched-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.unmatched-tag{background:var(--amber-bg);border:1px solid #EF9F27;border-radius:20px;padding:3px 10px;font-size:11px;font-family:var(--mono);color:var(--amber-text)}
+
+/* copy flash */
+.btn-copied{background:var(--teal)!important;border-color:var(--teal)!important;color:#fff!important}
+
+/* empty state */
+.empty{text-align:center;padding:40px 20px}
+.empty-icon{font-size:36px;color:var(--text3);display:block;margin-bottom:12px}
+
+/* rule table */
+.rule-row{display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:12px;border-bottom:1px solid var(--border);line-height:1.6}
+.rule-row:last-child{border-bottom:none}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="header-icon"><i class="ti ti-clipboard-check" style="font-size:20px;color:#0F6E56"></i></div>
+    <div>
+      <div class="header-title">出欠管理ツール</div>
+      <div class="header-sub">Zoom参加者テキスト → 自動出欠判定</div>
+    </div>
+    <div id="roster-count-badge" style="display:none" class="roster-count"></div>
+  </div>
+
+  <div class="nav">
+    <button class="nav-btn on" id="tab-scan" onclick="switchTab('scan')">
+      <i class="ti ti-clipboard-list" style="font-size:15px"></i> 出欠確認
+    </button>
+    <button class="nav-btn" id="tab-roster" onclick="switchTab('roster')">
+      <i class="ti ti-users" style="font-size:15px"></i> 名簿管理
+    </button>
+    <button class="nav-btn" id="tab-result" onclick="switchTab('result')" style="display:none">
+      <i class="ti ti-chart-bar" style="font-size:15px"></i> 結果
+    </button>
+  </div>
+
+  <!-- SCAN TAB -->
+  <div id="page-scan" class="body">
+    <div id="scan-no-roster" class="alert alert-warn" style="display:none">
+      <i class="ti ti-alert-triangle" style="font-size:16px;flex-shrink:0"></i>
+      <span>先に「名簿管理」でメンバーを登録してください。</span>
+    </div>
+
+    <div class="card">
+      <div class="section-label">回・日付（任意）</div>
+      <input type="text" id="session-label" placeholder="例: 第5回（5/20）" style="width:220px">
+    </div>
+
+    <div class="card">
+      <div class="section-label">Zoom参加者テキストを貼り付け</div>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.8">
+        Zoomの参加者パネルを表示した状態で、PCのスクリーンショット機能のテキスト取得（Windowsなら<strong>PowerToys Text Extractor</strong>、Macなら<strong>スクリーンショットのテキスト選択</strong>）でテキストをコピーして貼り付けてください。スペースや余分な文字が混ざっていても自動で整理します。
+      </p>
+      <textarea class="paste-area" id="paste-input" placeholder="ここに貼り付け...&#10;&#10;例:&#10;田中 太郎  ホスト&#10;鈴木花子&#10;  山田 一郎&#10;佐藤 美咲 (マイクミュート)"></textarea>
+      <div style="display:flex;gap:10px;margin-top:14px;align-items:center">
+        <button class="btn-primary" onclick="analyze()" id="analyze-btn">
+          <i class="ti ti-search" style="font-size:15px"></i> 出欠を確認する
+        </button>
+        <button class="btn-ghost btn-sm" onclick="document.getElementById('paste-input').value='';document.getElementById('paste-input').focus()">
+          <i class="ti ti-x" style="font-size:14px"></i> クリア
+        </button>
+      </div>
+      <div id="scan-err" class="alert alert-err" style="display:none;margin-top:12px"></div>
+    </div>
+
+    <div class="card" style="background:var(--surface2)">
+      <div class="section-label" style="margin-bottom:10px">判定ルール</div>
+      <div>
+        <div class="rule-row"><span class="pill pill-s">出席</span><span style="color:var(--text2)">参加者テキストに名前（または名前の一部）が見つかった</span></div>
+        <div class="rule-row"><span class="pill pill-a">欠席</span><span style="color:var(--text2)">参加者テキストに名前が見つからなかった（5分以上遅刻・欠席含む）</span></div>
+        <div class="rule-row"><span class="pill pill-u">未照合</span><span style="color:var(--text2)">テキストにあるが名簿に一致しない名前（ニックネーム等）</span></div>
+      </div>
+      <p style="font-size:11px;color:var(--text3);margin-top:10px;line-height:1.7">
+        ※ 定刻の5分後にスクリーンショットを撮ることで「5分以上の遅刻＝欠席」が自動判定されます。
+      </p>
+    </div>
+  </div>
+
+  <!-- ROSTER TAB -->
+  <div id="page-roster" class="body" style="display:none">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="font-size:15px;font-weight:600">メンバー名簿</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:2px">このブラウザに保存されます</div>
+        </div>
+        <span id="roster-badge" class="pill pill-s">0名</span>
+      </div>
+
+      <div id="roster-view">
+        <div id="roster-empty" class="empty" style="display:none">
+          <i class="ti ti-users empty-icon"></i>
+          <div style="font-size:14px;color:var(--text2);margin-bottom:16px">名簿が未登録です</div>
+          <button class="btn-primary" onclick="showRosterEdit()"><i class="ti ti-plus" style="font-size:15px"></i> 名簿を入力する</button>
+        </div>
+        <div id="roster-filled" style="display:none">
+          <input type="text" id="roster-search" placeholder="名前を検索..." style="width:100%;margin-bottom:12px" oninput="renderRosterList()">
+          <div class="roster-list" id="roster-list"></div>
+          <button class="btn-ghost" style="margin-top:14px" onclick="showRosterEdit()"><i class="ti ti-edit" style="font-size:14px"></i> 編集する</button>
+        </div>
+      </div>
+
+      <div id="roster-edit" style="display:none">
+        <div class="section-label">名前を1行ずつ入力（スプレッドシートからコピペ可）</div>
+        <textarea class="mono" id="roster-textarea" rows="16" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;color:var(--text);outline:none" placeholder="田中太郎&#10;鈴木花子&#10;山田一郎&#10;..."></textarea>
+        <div style="display:flex;gap:10px;margin-top:12px">
+          <button class="btn-primary" onclick="saveRoster()"><i class="ti ti-device-floppy" style="font-size:15px"></i> 保存する</button>
+          <button class="btn-ghost" onclick="cancelRosterEdit()">キャンセル</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT TAB -->
+  <div id="page-result" class="body" style="display:none">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+      <div>
+        <div id="result-title" style="font-size:16px;font-weight:600"></div>
+        <div id="result-sub" style="font-size:12px;color:var(--text3);margin-top:3px"></div>
+      </div>
+      <button class="btn-ghost btn-sm" id="copy-btn" onclick="copyTsv()">
+        <i class="ti ti-copy" style="font-size:14px"></i> スプレッドシートにコピー
+      </button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat active-s" id="stat-present" onclick="setFilter('present')">
+        <div class="stat-num" id="num-present" style="color:var(--teal-text)">0</div>
+        <div class="stat-lbl">出席</div>
+      </div>
+      <div class="stat" id="stat-absent" onclick="setFilter('absent')">
+        <div class="stat-num" id="num-absent" style="color:#791F1F">0</div>
+        <div class="stat-lbl">欠席</div>
+      </div>
+      <div class="stat" id="stat-all" onclick="setFilter('all')">
+        <div class="stat-num" id="num-all" style="color:var(--text)">0</div>
+        <div class="stat-lbl">全員</div>
+      </div>
+    </div>
+
+    <div id="unmatched-block" style="display:none;margin-bottom:14px">
+      <div class="alert alert-warn">
+        <i class="ti ti-user-question" style="font-size:16px;flex-shrink:0"></i>
+        <div>
+          <div style="font-weight:600;margin-bottom:4px">名簿外の文字列 <span id="unmatched-count"></span></div>
+          <div style="font-size:11px;margin-bottom:6px">名簿と一致しませんでした。ニックネームや表示名の揺れを確認してください。</div>
+          <div class="unmatched-list" id="unmatched-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="att-list">
+      <div class="search-wrap">
+        <input class="search-input" type="text" id="result-search" placeholder="名前で絞り込み..." oninput="renderResultList()">
+      </div>
+      <div class="att-list-header">
+        <span></span><span>名前</span><span style="text-align:right">判定</span>
+      </div>
+      <div id="result-rows"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let roster = [];
+let results = null;
+let currentFilter = 'all';
+
+function loadRoster() {
+  try {
+    const raw = localStorage.getItem('posse-roster-v1');
+    if (raw) {
+      roster = JSON.parse(raw);
+      updateRosterUI();
+    }
+  } catch(e) {}
+}
+
+function saveRoster() {
+  const ta = document.getElementById('roster-textarea');
+  const lines = ta.value.split('\n').map(s => s.trim()).filter(Boolean);
+  roster = [...new Set(lines)];
+  try { localStorage.setItem('posse-roster-v1', JSON.stringify(roster)); } catch(e) {}
+  updateRosterUI();
+  showRosterView();
+}
+
+function updateRosterUI() {
+  const badge = document.getElementById('roster-badge');
+  const countBadge = document.getElementById('roster-count-badge');
+  badge.textContent = roster.length + '名';
+  if (roster.length > 0) {
+    countBadge.textContent = roster.length + '名';
+    countBadge.style.display = '';
+    document.getElementById('roster-empty').style.display = 'none';
+    document.getElementById('roster-filled').style.display = '';
+    document.getElementById('scan-no-roster').style.display = 'none';
+  } else {
+    countBadge.style.display = 'none';
+    document.getElementById('roster-empty').style.display = '';
+    document.getElementById('roster-filled').style.display = 'none';
+    document.getElementById('scan-no-roster').style.display = '';
+  }
+  renderRosterList();
+}
+
+function renderRosterList() {
+  const q = (document.getElementById('roster-search')?.value || '').trim();
+  const filtered = q ? roster.filter(n => n.includes(q)) : roster;
+  const el = document.getElementById('roster-list');
+  if (!el) return;
+  el.innerHTML = filtered.map(n => {
+    const idx = roster.indexOf(n) + 1;
+    return `<div class="roster-item"><span class="roster-item-num">${idx}</span><span>${n}</span></div>`;
+  }).join('');
+}
+
+function showRosterEdit() {
+  document.getElementById('roster-view').style.display = 'none';
+  document.getElementById('roster-edit').style.display = '';
+  document.getElementById('roster-textarea').value = roster.join('\n');
+}
+
+function showRosterView() {
+  document.getElementById('roster-view').style.display = '';
+  document.getElementById('roster-edit').style.display = 'none';
+}
+
+function cancelRosterEdit() {
+  showRosterView();
+}
+
+// ---- TEXT ANALYSIS ----
+function normalize(s) {
+  return s.replace(/[\s\u3000]/g, '').toLowerCase();
+}
+
+// noise words to strip from each line before matching
+const NOISE = ['ホスト','host','共同ホスト','co-host','cohost','参加者','ミュート','mute',
+  '(マイクミュート)','unmuted','muted','video','off','on','waiting','接続中','待機中',
+  'you','あなた','手を挙げている'];
+
+function cleanLine(line) {
+  let s = line.trim();
+  NOISE.forEach(w => { s = s.replace(new RegExp(w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'), ''); });
+  s = s.replace(/[()（）\[\]【】「」\|｜\/\\]/g, ' ');
+  s = s.replace(/\s+/g, ' ').trim();
+  return s;
+}
+
+function analyze() {
+  const pasteText = document.getElementById('paste-input').value;
+  const errEl = document.getElementById('scan-err');
+  errEl.style.display = 'none';
+
+  if (!pasteText.trim()) {
+    errEl.innerHTML = '<i class="ti ti-alert-circle" style="font-size:15px;flex-shrink:0"></i><span>テキストが空です。Zoomの参加者テキストを貼り付けてください。</span>';
+    errEl.style.display = 'flex';
+    return;
+  }
+  if (!roster.length) {
+    errEl.innerHTML = '<i class="ti ti-alert-circle" style="font-size:15px;flex-shrink:0"></i><span>名簿が未登録です。先に「名簿管理」でメンバーを登録してください。</span>';
+    errEl.style.display = 'flex';
+    return;
+  }
+
+  const lines = pasteText.split('\n');
+  const cleanedLines = lines.map(cleanLine).filter(Boolean);
+  const allCleanText = normalize(cleanedLines.join(' '));
+
+  // For each roster member: check if their normalized name appears in the text
+  const attendance = roster.map(name => {
+    const normName = normalize(name);
+    if (normName.length < 2) return { name, status: '欠席' };
+    const found = cleanedLines.some(line => normalize(line).includes(normName));
+    return { name, status: found ? '出席' : '欠席' };
+  });
+
+  // Unmatched: tokens from cleaned lines that don't match any roster member
+  const presentNorms = new Set(roster.filter(n => attendance.find(a=>a.name===n&&a.status==='出席')).map(normalize));
+  const unmatched = [];
+  cleanedLines.forEach(line => {
+    const norm = normalize(line);
+    if (!norm || norm.length < 2) return;
+    const matchedAny = roster.some(n => normalize(n).length >= 2 && norm.includes(normalize(n)));
+    if (!matchedAny && norm.length >= 2) {
+      // only add if it looks like a name (not a single char or pure number)
+      if (!/^\d+$/.test(norm) && norm.length >= 2) {
+        const display = line.replace(/\s+/g,' ').trim();
+        if (display && !unmatched.includes(display)) unmatched.push(display);
+      }
+    }
+  });
+
+  const session = document.getElementById('session-label').value || '今回';
+  results = {
+    session,
+    ts: new Date().toLocaleString('ja-JP'),
+    attendance,
+    unmatched: unmatched.filter(u => u.length >= 2 && u.length <= 20)
+  };
+
+  currentFilter = 'all';
+  renderResults();
+  switchTab('result');
+}
+
+function renderResults() {
+  if (!results) return;
+  const { session, ts, attendance, unmatched } = results;
+  const present = attendance.filter(a => a.status === '出席');
+  const absent = attendance.filter(a => a.status === '欠席');
+
+  document.getElementById('result-title').textContent = session + ' — 出欠結果';
+  document.getElementById('result-sub').textContent = ts + ' · 名簿 ' + attendance.length + '名';
+  document.getElementById('num-present').textContent = present.length;
+  document.getElementById('num-absent').textContent = absent.length;
+  document.getElementById('num-all').textContent = attendance.length;
+  document.getElementById('tab-result').style.display = '';
+
+  if (unmatched.length) {
+    document.getElementById('unmatched-block').style.display = '';
+    document.getElementById('unmatched-count').textContent = unmatched.length + '件';
+    document.getElementById('unmatched-list').innerHTML = unmatched.map(u => `<span class="unmatched-tag">${u}</span>`).join('');
+  } else {
+    document.getElementById('unmatched-block').style.display = 'none';
+  }
+
+  renderResultList();
+  updateFilterUI();
+}
+
+function renderResultList() {
+  if (!results) return;
+  const q = document.getElementById('result-search')?.value.trim() || '';
+  let list = results.attendance;
+  if (currentFilter === 'present') list = list.filter(a => a.status === '出席');
+  if (currentFilter === 'absent') list = list.filter(a => a.status === '欠席');
+  if (q) list = list.filter(a => a.name.includes(q));
+  const idx = (name) => roster.indexOf(name) + 1;
+  document.getElementById('result-rows').innerHTML = list.map(a => `
+    <div class="att-row">
+      <div class="att-idx">${idx(a.name)}</div>
+      <div class="att-name">${a.name}</div>
+      <div class="att-status"><span class="pill ${a.status==='出席'?'pill-s':'pill-a'}">${a.status}</span></div>
+    </div>`).join('');
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  updateFilterUI();
+  renderResultList();
+}
+
+function updateFilterUI() {
+  ['present','absent','all'].forEach(f => {
+    const el = document.getElementById('stat-'+f);
+    el.className = 'stat' + (currentFilter===f?' active-'+f:'');
+  });
+}
+
+function copyTsv() {
+  if (!results) return;
+  const rows = ['名前\t出欠', ...results.attendance.map(a => `${a.name}\t${a.status}`)];
+  navigator.clipboard.writeText(rows.join('\n')).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.classList.add('btn-copied');
+    btn.innerHTML = '<i class="ti ti-check" style="font-size:14px"></i> コピー済み';
+    setTimeout(() => {
+      btn.classList.remove('btn-copied');
+      btn.innerHTML = '<i class="ti ti-copy" style="font-size:14px"></i> スプレッドシートにコピー';
+    }, 2000);
+  });
+}
+
+// ---- TABS ----
+function switchTab(tab) {
+  ['scan','roster','result'].forEach(t => {
+    document.getElementById('page-'+t).style.display = t===tab ? '' : 'none';
+    document.getElementById('tab-'+t).classList.toggle('on', t===tab);
+  });
+  if (tab === 'roster') renderRosterList();
+}
+
+loadRoster();
+</script>
+</body>
+</html>
