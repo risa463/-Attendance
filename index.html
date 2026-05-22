@@ -3,500 +3,1020 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>出欠管理ツール</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<title>MU 出欠管理ツール</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#F7F7F5;
-  --surface:#FFFFFF;
-  --surface2:#F1F0EC;
-  --border:#E2E0D8;
-  --border2:#CCCBC3;
-  --text:#1A1A18;
-  --text2:#6B6A65;
-  --text3:#A09F9A;
-  --teal:#1D9E75;
-  --teal-bg:#E1F5EE;
-  --teal-text:#085041;
-  --red-bg:#FCEBEB;
-  --red-text:#791F1F;
-  --amber-bg:#FAEEDA;
-  --amber-text:#633806;
-  --mono:'Courier New',monospace;
-  --radius:10px;
-  --radius-sm:7px;
+:root {
+  --p:      #152A7B;
+  --p-dark: #152A7B;
+  --p-lite: #EFF6FF;
+  --p-mid:  #BFDBFE;
+  --bg:     #F1F5F9;
+  --surf:   #FFFFFF;
+  --bdr:    #E2E8F0;
+  --bdr2:   #CBD5E1;
+  --tx:     #121d38;
+  --tx2:    #334155;
+  --tx3:    #64748B;
+  --muted:  #94A3B8;
+  --green:  #34a6e0;  --g-bg: #f0f8fc;  --g-bdr: #188dc9;
+  --red:    #e04441;  --r-bg: #FEF2F2;  --r-bdr: #F37472;
+  --amber:  #e69d32;  --a-bg: #FFFBEB;  --a-bdr: #F7BF6C;
+  --r:  8px; --rl: 12px;
+  --sh:  0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+  --shm: 0 4px 12px rgba(0,0,0,.09), 0 2px 4px rgba(0,0,0,.05);
 }
-body{font-family:-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6}
-.app{max-width:780px;margin:0 auto;padding:0 0 60px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans JP',sans-serif;font-size:16px;line-height:1.7;color:var(--tx);background:var(--bg);min-height:100vh;-webkit-font-smoothing:antialiased}
 
-/* header */
-.header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:10}
-.header-icon{width:38px;height:38px;background:var(--teal-bg);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.header-title{font-size:15px;font-weight:600;color:var(--text)}
-.header-sub{font-size:11px;color:var(--text3);margin-top:1px}
-.roster-count{margin-left:auto;background:var(--teal-bg);color:var(--teal-text);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500}
+/* ── Header ── */
+.hdr{position:sticky;top:0;z-index:50;background:var(--surf);border-bottom:2px solid var(--p);box-shadow:var(--sh)}
+.hdr-in{max-width:860px;margin:0 auto;padding:0 20px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:700;color:var(--p);flex-shrink:0;white-space:nowrap}
+.logo-mk{width:30px;height:30px;border-radius:7px;background:var(--p);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700}
+.tabs{display:flex;gap:2px;flex:1;justify-content:center}
+.tab{padding:7px 14px;border:none;border-radius:var(--r);background:transparent;font-family:inherit;font-size:15px;font-weight:500;color:var(--tx3);cursor:pointer;transition:background .14s,color .14s;white-space:nowrap}
+.tab:hover{background:var(--bg);color:var(--tx)}
+.tab.on{background:var(--p-lite);color:var(--p);font-weight:700}
 
-/* nav */
-.nav{background:var(--surface);border-bottom:1px solid var(--border);display:flex;padding:0 24px;gap:0;overflow-x:auto}
-.nav-btn{padding:12px 20px;font-size:13px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:7px;white-space:nowrap;font-family:inherit;transition:color .15s,border-color .15s}
-.nav-btn:hover{color:var(--text)}
-.nav-btn.on{color:var(--teal);border-bottom-color:var(--teal);font-weight:500}
+/* Help button */
+.help-btn{width:32px;height:32px;border-radius:50%;border:2px solid var(--bdr2);background:transparent;font-family:inherit;font-size:16px;font-weight:700;color:var(--tx3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .13s,border-color .13s,color .13s}
+.help-btn:hover{background:var(--p-lite);border-color:var(--p);color:var(--p)}
 
-/* body */
-.body{padding:24px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;margin-bottom:16px}
-.section-label{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+/* ── Help overlay ── */
+.help-ov{display:none;position:fixed;inset:0;background:rgba(15,23,42,.52);z-index:300;align-items:flex-start;justify-content:center;padding:32px 16px;overflow-y:auto}
+.help-ov.open{display:flex}
+.help-modal{background:var(--surf);border-radius:var(--rl);width:100%;max-width:680px;position:relative;box-shadow:0 24px 48px rgba(0,0,0,.20);overflow:hidden}
+.help-hd{background:var(--p);padding:22px 56px 22px 28px;position:relative}
+.help-hd-title{font-size:18px;font-weight:700;color:#fff}
+.help-hd-sub{font-size:14px;color:rgba(255,255,255,.75);margin-top:3px}
+.help-close{position:absolute;top:14px;right:16px;border:none;background:rgba(255,255,255,.18);color:#fff;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .13s}
+.help-close:hover{background:rgba(255,255,255,.32)}
+.help-body{padding:24px 28px 32px;overflow-y:auto;max-height:calc(100vh - 160px)}
+.help-section{margin-bottom:28px}
+.help-section:last-child{margin-bottom:0}
+.help-section-title{font-size:16px;font-weight:700;color:var(--p);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--p-mid);display:flex;align-items:center;gap:8px}
+.help-step{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}
+.help-step:last-child{margin-bottom:0}
+.step-num{width:24px;height:24px;border-radius:50%;background:var(--p);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body{flex:1}
+.step-title{font-weight:700;font-size:16px;color:var(--tx);line-height:1.5}
+.step-desc{font-size:14px;color:var(--tx3);margin-top:4px;line-height:1.7}
+.step-desc code{background:var(--bg);border:1px solid var(--bdr2);border-radius:4px;padding:1px 6px;font-family:monospace;font-size:13px;color:var(--tx)}
+.step-desc strong{color:var(--tx2)}
+.help-tip{background:var(--p-lite);border:1px solid var(--p-mid);border-radius:var(--r);padding:12px 14px;font-size:14px;color:#1E40AF;line-height:1.7;margin-top:10px}
+.help-tip b{font-weight:700}
+.help-sub-list{margin-top:8px;padding-left:4px}
+.help-sub-item{display:flex;gap:8px;margin-bottom:6px;font-size:14px;color:var(--tx3);line-height:1.6}
+.help-sub-item::before{content:"・";color:var(--p);flex-shrink:0;font-weight:700}
+.kbd-block{background:#F8FAFC;border:1px solid var(--bdr2);border-radius:var(--r);padding:14px 16px;margin-top:10px;font-size:14px}
+.kbd-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.kbd-row:last-child{margin-bottom:0}
+.kbd{display:inline-flex;padding:3px 9px;background:var(--surf);border:1px solid var(--bdr2);border-radius:5px;box-shadow:0 1px 0 var(--bdr2);font-size:13px;font-weight:700;color:var(--tx2);white-space:nowrap}
+.kbd-arrow{color:var(--muted);font-size:12px}
+.help-badge{display:inline-flex;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;background:var(--p-lite);color:var(--p);border:1px solid var(--p-mid);margin-right:4px}
+.status-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.st-item{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--tx2)}
+.divider-sm{height:1px;background:var(--bdr);margin:16px 0}
 
-/* buttons */
-.btn-primary{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;background:var(--teal);border:none;border-radius:var(--radius-sm);color:#fff;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:opacity .15s}
-.btn-primary:hover{opacity:.87}
-.btn-primary:disabled{opacity:.4;cursor:not-allowed}
-.btn-ghost{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:none;border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text2);font-size:13px;font-family:inherit;cursor:pointer;transition:background .15s}
-.btn-ghost:hover{background:var(--surface2)}
-.btn-sm{padding:6px 14px;font-size:12px}
+/* ── Layout ── */
+.main{max-width:860px;margin:0 auto;padding:28px 20px 72px}
+.panel{display:none}
+.panel.on{display:block}
+.pg-hd{margin-bottom:20px}
+.pg-title{font-size:18px;font-weight:700;color:var(--tx)}
+.pg-desc{font-size:14px;color:var(--tx3);margin-top:3px}
 
-/* inputs */
-input[type=text],textarea{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:inherit;font-size:13px;padding:9px 12px;outline:none;transition:border-color .15s}
-input[type=text]:focus,textarea:focus{border-color:var(--teal)}
-textarea{resize:vertical;line-height:1.8}
-.mono{font-family:var(--mono);font-size:12.5px}
+/* Card */
+.card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);box-shadow:var(--sh);padding:24px}
+.card+.card{margin-top:16px}
 
-/* pills */
-.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.02em}
-.pill-s{background:var(--teal-bg);color:var(--teal-text)}
-.pill-a{background:var(--red-bg);color:var(--red-text)}
-.pill-u{background:#F1EFE8;color:#444441}
+/* Form */
+.fr{margin-bottom:18px}
+.fr:last-child{margin-bottom:0}
+label{display:block;font-size:16px;font-weight:700;color:var(--tx2);margin-bottom:7px}
+input[type=text],select,textarea{width:100%;padding:10px 13px;border:1px solid var(--bdr2);border-radius:var(--r);font-family:inherit;font-size:16px;color:var(--tx);background:var(--surf);outline:none;transition:border-color .15s,box-shadow .15s;-webkit-appearance:none}
+input[type=text]:focus,select:focus,textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(21,42,123,.13)}
+textarea{resize:vertical;min-height:180px;font-size:15px;line-height:1.75}
+select{cursor:pointer}
+.hint{font-size:13px;color:var(--muted);margin-top:5px}
+.tip{display:flex;gap:10px;padding:12px 14px;margin-bottom:14px;background:var(--p-lite);border:1px solid var(--p-mid);border-radius:var(--r);font-size:14px;line-height:1.65;color:#1E40AF}
+.tip-icon{flex-shrink:0;font-size:15px;margin-top:2px}
 
-/* alerts */
-.alert{border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;display:flex;align-items:flex-start;gap:8px;line-height:1.7;margin-bottom:14px}
-.alert-warn{background:var(--amber-bg);border:1px solid #EF9F27;color:var(--amber-text)}
-.alert-info{background:var(--teal-bg);border:1px solid #5DCAA5;color:var(--teal-text)}
-.alert-err{background:var(--red-bg);border:1px solid #F09595;color:var(--red-text)}
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border:none;border-radius:var(--r);font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:background .14s,opacity .14s;white-space:nowrap}
+.btn:disabled{opacity:.5;cursor:default}
+.btn-p{background:var(--p);color:#fff;box-shadow:0 1px 2px rgba(21,42,123,.25)}
+.btn-p:hover:not(:disabled){opacity:.88}
+.btn-s{background:var(--bg);color:var(--tx);border:1px solid var(--bdr2)}
+.btn-s:hover{background:#E8EEF6}
+.btn-g{background:transparent;color:var(--p);padding:6px 12px;font-size:14px}
+.btn-g:hover{background:var(--p-lite)}
+.btn-d{background:transparent;color:var(--red);padding:6px 12px;font-size:14px}
+.btn-d:hover{background:var(--r-bg)}
+.btn-sm{padding:6px 12px;font-size:14px}
+.btn-full{width:100%;justify-content:center}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px}
+.back-btn{display:inline-flex;align-items:center;gap:5px;border:none;background:transparent;font-family:inherit;font-size:14px;font-weight:600;color:var(--tx3);cursor:pointer;padding:4px 8px;border-radius:var(--r);transition:background .12s,color .12s;margin-bottom:16px}
+.back-btn:hover{background:var(--bdr);color:var(--tx)}
 
-/* stats */
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
-.stat{background:var(--surface2);border-radius:var(--radius-sm);padding:14px 16px;text-align:center;cursor:pointer;border:2px solid transparent;transition:border-color .15s}
-.stat:hover{border-color:var(--border2)}
-.stat.active-s{border-color:var(--teal)}
-.stat.active-a{border-color:#E24B4A}
-.stat.active-all{border-color:var(--border2)}
-.stat-num{font-size:28px;font-weight:600;line-height:1.1;margin-bottom:4px}
-.stat-lbl{font-size:11px;color:var(--text3)}
+/* .magnifying-glass */
+.magnifying_glass {display: inline-block;position: relative;width: 1em;height: 1em;color: #000;font-size: 20px;}
+.magnifying_glass::before {position: absolute;top: 0px;left: 0px;width: 0.7em;height: 0.7em;box-sizing: border-box;border: 0.15em solid currentColor;border-radius: 50%;background-color: #fff;content: "";}
+.magnifying_glass::after {position: absolute;top: 0px;left: 50%;z-index: -1;transform: rotate(-45deg);width: 0.15em;height: 1em;box-sizing: border-box;background-color: currentColor;content: "";}
 
-/* attendance list */
-.att-list{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.att-list-header{padding:10px 16px;background:var(--surface2);border-bottom:1px solid var(--border);display:grid;grid-template-columns:36px 1fr 80px;gap:0}
-.att-list-header span{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.07em;text-transform:uppercase}
-.att-row{display:grid;grid-template-columns:36px 1fr 80px;gap:0;border-bottom:1px solid var(--border);align-items:center}
-.att-row:last-child{border-bottom:none}
-.att-row:hover{background:var(--surface2)}
-.att-idx{font-size:11px;color:var(--text3);padding:10px 0 10px 12px;font-family:var(--mono)}
-.att-name{font-size:13px;padding:10px 8px;color:var(--text)}
-.att-status{padding:10px 12px 10px 0;text-align:right}
+/* Result header */
+.res-hd{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:18px}
+.res-label{font-size:18px;font-weight:700}
+.res-meta{font-size:14px;color:var(--tx3);margin-top:2px}
 
-/* search */
-.search-wrap{padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface2)}
-.search-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 12px;font-size:13px;font-family:inherit;color:var(--text);outline:none;transition:border-color .15s}
-.search-input:focus{border-color:var(--teal)}
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.sc{background:var(--surf);border:2px solid var(--bdr);border-radius:var(--rl);padding:14px 10px;text-align:center;cursor:pointer;user-select:none;transition:border-color .13s,background .13s}
+.sc:hover{border-color:var(--bdr2)}
+.sc.on{border-color:var(--p);background:var(--p-lite)}
+.sc-n{font-size:30px;font-weight:700;line-height:1;margin-bottom:5px}
+.sc-l{font-size:12px;font-weight:700;letter-spacing:.05em;color:var(--tx3)}
+.sc.sa .sc-n{color:var(--p)}
+.sc.sp .sc-n{color:var(--green)}
+.sc.sb .sc-n{color:var(--red)}
+.sc.su .sc-n{color:var(--amber)}
 
-/* paste area */
-.paste-area{width:100%;min-height:140px;background:var(--surface2);border:1.5px dashed var(--border2);border-radius:var(--radius);padding:14px;font-family:var(--mono);font-size:12px;color:var(--text);resize:vertical;outline:none;transition:border-color .15s;line-height:1.7}
-.paste-area:focus{border-color:var(--teal);border-style:solid;background:var(--surface)}
-.paste-area::placeholder{color:var(--text3)}
+/* Search */
+.search-wr{position:relative;margin-bottom:14px}
+.search-wr input{padding-left:38px}
+.search-ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:15px}
 
-/* roster editor */
-.roster-list{background:var(--surface2);border-radius:var(--radius-sm);max-height:320px;overflow-y:auto;border:1px solid var(--border)}
-.roster-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--border);font-size:13px}
-.roster-item:last-child{border-bottom:none}
-.roster-item-num{font-size:11px;color:var(--text3);font-family:var(--mono);min-width:22px}
+/* Table */
+.tbl-wr{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:16px}
+.tbl th{padding:9px 12px;text-align:left;font-size:13px;font-weight:700;letter-spacing:.05em;color:var(--tx3);border-bottom:2px solid var(--bdr);background:var(--bg);white-space:nowrap}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--bdr);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tbody tr:hover td{background:#FAFBFD}
+.td-name{font-weight:600}
+.td-note{font-size:13px;color:var(--tx3)}
+.td-act{white-space:nowrap}
 
-/* unmatched */
-.unmatched-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.unmatched-tag{background:var(--amber-bg);border:1px solid #EF9F27;border-radius:20px;padding:3px 10px;font-size:11px;font-family:var(--mono);color:var(--amber-text)}
+/* Badges */
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:13px;font-weight:700}
+.bp{background:var(--g-bg);color:var(--green);border:1px solid var(--g-bdr)}
+.ba{background:var(--r-bg);color:var(--red);border:1px solid var(--r-bdr)}
+.bu{background:var(--a-bg);color:var(--amber);border:1px solid var(--a-bdr)}
 
-/* copy flash */
-.btn-copied{background:var(--teal)!important;border-color:var(--teal)!important;color:#fff!important}
+/* Classify buttons */
+.cls-btn{display:inline-flex;align-items:center;padding:3px 8px;border:none;border-radius:5px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:background .12s;margin-left:4px}
+.cls-p{background:var(--g-bg);color:var(--green);border:1px solid var(--g-bdr)}
+.cls-p:hover{background:var(--g-bdr);color:var(--g-bg)}
+.cls-a{background:var(--r-bg);color:var(--red);border:1px solid var(--r-bdr)}
+.cls-a:hover{background:var(--r-bdr);color:var(--r-bg)}
 
-/* empty state */
-.empty{text-align:center;padding:40px 20px}
-.empty-icon{font-size:36px;color:var(--text3);display:block;margin-bottom:12px}
+/* Unmatched */
+.unm{margin-top:20px;padding-top:16px;border-top:1px solid var(--bdr)}
+.unm-title{font-size:13px;font-weight:700;color:var(--tx3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;padding:4px 12px;background:var(--bg);border:1px solid var(--bdr2);border-radius:999px;font-size:13px;color:var(--tx)}
 
-/* rule table */
-.rule-row{display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:12px;border-bottom:1px solid var(--border);line-height:1.6}
-.rule-row:last-child{border-bottom:none}
+/* Roster list */
+.ritem{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);margin-bottom:8px;transition:border-color .13s;overflow:hidden}
+.ritem:hover{border-color:var(--bdr2)}
+.ritem-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px}
+.rinfo{min-width:0;flex:1}
+.rname{font-size:16px;font-weight:700;color:var(--tx)}
+.rmeta{font-size:13px;color:var(--tx3);margin-top:2px}
+.ract{display:flex;gap:6px;flex-shrink:0;align-items:center;flex-wrap:wrap}
+.roster-toggle{background:transparent;border:none;font-family:inherit;font-size:13px;font-weight:600;color:var(--tx3);cursor:pointer;padding:4px 8px;border-radius:var(--r);display:flex;align-items:center;gap:4px;transition:background .12s,color .12s;white-space:nowrap}
+.roster-toggle:hover{background:var(--bg);color:var(--tx)}
+.roster-toggle .chev{font-size:10px;transition:transform .2s}
+.ritem.open .roster-toggle .chev{transform:rotate(180deg)}
+.roster-members{display:none;padding:0 16px 14px}
+.ritem.open .roster-members{display:block}
+.member-list{background:var(--bg);border:1px solid var(--bdr);border-radius:var(--r);padding:10px 14px;max-height:200px;overflow-y:auto}
+.member-list-item{padding:4px 0;font-size:15px;color:var(--tx2);border-bottom:1px solid var(--bdr);line-height:1.5}
+.member-list-item:last-child{border-bottom:none}
+
+/* Archive */
+.arc-card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);margin-bottom:10px;box-shadow:var(--sh);overflow:hidden}
+.arc-card.ex{border-color:var(--p)}
+.arc-hd{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;transition:background .12s}
+.arc-hd:hover{background:#FAFBFD}
+.arc-info{flex:1;min-width:0}
+.arc-lbl{font-size:16px;font-weight:700;color:var(--tx)}
+.arc-sub{font-size:13px;color:var(--tx3);margin-top:1px}
+.arc-stats{display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap}
+.mini-st{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.ms-p{background:var(--g-bg);color:var(--green)}
+.ms-a{background:var(--r-bg);color:var(--red)}
+.ms-u{background:var(--a-bg);color:var(--amber)}
+.arc-chev{font-size:11px;color:var(--muted);flex-shrink:0;transition:transform .2s}
+.arc-card.ex .arc-chev{transform:rotate(180deg)}
+.arc-detail{padding:4px 16px 16px;border-top:1px solid var(--bdr)}
+.arc-del{flex-shrink:0}
+
+/* Copy options */
+.copy-opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--bdr)}
+.copy-opts-label{width:100%;font-size:13px;font-weight:700;color:var(--tx3);margin-bottom:2px}
+
+/* Risk */
+.risk-box{border-radius:var(--rl);padding:14px 16px;margin-bottom:12px}
+.risk-box.danger{background:var(--r-bg);border:1px solid var(--r-bdr)}
+.risk-box.warn{background:var(--a-bg);border:1px solid var(--a-bdr)}
+.risk-title{font-size:15px;font-weight:700;margin-bottom:10px}
+.risk-title.danger{color:var(--red)}
+.risk-title.warn{color:var(--amber)}
+.risk-chips{display:flex;flex-wrap:wrap;gap:7px}
+.rchip{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:999px;font-size:14px;font-weight:600}
+.rchip.d{background:var(--r-bdr);color:var(--red)}
+.rchip.w{background:var(--a-bdr);color:#78350F}
+
+/* Matrix */
+.matrix-outer{overflow-x:auto;margin-top:8px}
+.mtx{border-collapse:collapse;font-size:14px;white-space:nowrap}
+.mtx th,.mtx td{border:1px solid var(--bdr);padding:7px 10px}
+.mtx thead th{background:var(--bg);font-weight:700;font-size:13px;color:var(--tx2);text-align:center}
+.mth-sess{text-align:left!important;min-width:120px;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mth-mb{min-width:64px}
+.mth-danger{color:var(--red)!important}
+.mth-warn{color:var(--amber)!important}
+.mtd-sess{font-weight:600;color:var(--tx)}
+.mc{text-align:center;font-weight:700}
+.mc-p{background:var(--g-bg);color:var(--green)}
+.mc-a{background:#fff;color:var(--muted)}
+.mc-u{background:var(--a-bg);color:var(--amber)}
+.mtx-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:13px;color:var(--tx3)}
+
+/* Misc */
+.div{height:1px;background:var(--bdr);margin:20px 0}
+.sub-hd{font-size:16px;font-weight:700;color:var(--tx);margin-bottom:14px;margin-top:28px;display:flex;align-items:center;gap:8px}
+.sub-hd:first-child{margin-top:0}
+.empty{text-align:center;padding:48px 24px;color:var(--muted)}
+.empty-icon{font-size:36px;margin-bottom:10px}
+.empty-text{font-size:16px;font-weight:600}
+.empty-sub{font-size:13px;margin-top:4px}
+
+/* Modal (roster) */
+.mover{display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:200;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto}
+.mover.open{display:flex}
+.modal{background:var(--surf);border-radius:var(--rl);padding:28px;width:100%;max-width:520px;box-shadow:0 20px 40px rgba(0,0,0,.18);position:relative}
+.modal-title{font-size:18px;font-weight:700;margin-bottom:20px}
+.modal-x{position:absolute;top:16px;right:16px;border:none;background:transparent;font-size:20px;cursor:pointer;color:var(--muted);padding:4px;border-radius:4px;line-height:1}
+.modal-x:hover{color:var(--tx);background:var(--bg)}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--tx);color:#fff;padding:11px 18px;border-radius:var(--r);font-size:14px;font-weight:600;box-shadow:var(--shm);opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s;z-index:999;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+@media(max-width:620px){
+  .hdr-in{padding:0 12px;gap:8px}
+  .logo span{display:none}
+  .tab{padding:7px 9px;font-size:14px}
+  .main{padding:18px 14px 60px}
+  .card{padding:18px}
+  .stats{grid-template-columns:repeat(2,1fr);gap:8px}
+  .sc-n{font-size:26px}
+  .arc-stats{display:none}
+  .help-body{padding:18px 18px 24px}
+}
+@media(max-width:400px){.tab{padding:7px 7px;font-size:13px}}
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="header">
-    <div class="header-icon"><i class="ti ti-clipboard-check" style="font-size:20px;color:#0F6E56"></i></div>
-    <div>
-      <div class="header-title">出欠管理ツール</div>
-      <div class="header-sub">Zoom参加者テキスト → 自動出欠判定</div>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="logo">
+      <div class="logo-mk">✓</div>
+      <span>MU 出欠管理</span>
     </div>
-    <div id="roster-count-badge" style="display:none" class="roster-count"></div>
+    <nav class="tabs">
+      <button class="tab on"  data-tab="check"   onclick="sw('check',this)">出欠確認</button>
+      <button class="tab"     data-tab="roster"  onclick="sw('roster',this)">名簿管理</button>
+      <button class="tab"     data-tab="archive" onclick="sw('archive',this)">アーカイブ</button>
+    </nav>
+    <button class="help-btn" onclick="openHelp()" title="使い方">?</button>
   </div>
+</header>
 
-  <div class="nav">
-    <button class="nav-btn on" id="tab-scan" onclick="switchTab('scan')">
-      <i class="ti ti-clipboard-list" style="font-size:15px"></i> 出欠確認
-    </button>
-    <button class="nav-btn" id="tab-roster" onclick="switchTab('roster')">
-      <i class="ti ti-users" style="font-size:15px"></i> 名簿管理
-    </button>
-    <button class="nav-btn" id="tab-result" onclick="switchTab('result')" style="display:none">
-      <i class="ti ti-chart-bar" style="font-size:15px"></i> 結果
-    </button>
-  </div>
+<main class="main">
 
-  <!-- SCAN TAB -->
-  <div id="page-scan" class="body">
-    <div id="scan-no-roster" class="alert alert-warn" style="display:none">
-      <i class="ti ti-alert-triangle" style="font-size:16px;flex-shrink:0"></i>
-      <span>先に「名簿管理」でメンバーを登録してください。</span>
-    </div>
-
-    <div class="card">
-      <div class="section-label">回・日付（任意）</div>
-      <input type="text" id="session-label" placeholder="例: 第5回（5/20）" style="width:220px">
-    </div>
-
-    <div class="card">
-      <div class="section-label">Zoom参加者テキストを貼り付け</div>
-      <p style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.8">
-        Zoomの参加者パネルを表示した状態で、PCのスクリーンショット機能のテキスト取得（Windowsなら<strong>PowerToys Text Extractor</strong>、Macなら<strong>スクリーンショットのテキスト選択</strong>）でテキストをコピーして貼り付けてください。スペースや余分な文字が混ざっていても自動で整理します。
-      </p>
-      <textarea class="paste-area" id="paste-input" placeholder="ここに貼り付け...&#10;&#10;例:&#10;田中 太郎  ホスト&#10;鈴木花子&#10;  山田 一郎&#10;佐藤 美咲 (マイクミュート)"></textarea>
-      <div style="display:flex;gap:10px;margin-top:14px;align-items:center">
-        <button class="btn-primary" onclick="analyze()" id="analyze-btn">
-          <i class="ti ti-search" style="font-size:15px"></i> 出欠を確認する
-        </button>
-        <button class="btn-ghost btn-sm" onclick="document.getElementById('paste-input').value='';document.getElementById('paste-input').focus()">
-          <i class="ti ti-x" style="font-size:14px"></i> クリア
-        </button>
+  <!-- ═══ 出欠確認 ═══ -->
+  <div id="panel-check" class="panel on">
+    <div id="chk-form">
+      <div class="pg-hd">
+        <div class="pg-title">出欠確認</div>
+        <div class="pg-desc">Zoom 参加者パネルのテキストを貼り付けて出欠を自動判定します</div>
       </div>
-      <div id="scan-err" class="alert alert-err" style="display:none;margin-top:12px"></div>
-    </div>
-
-    <div class="card" style="background:var(--surface2)">
-      <div class="section-label" style="margin-bottom:10px">判定ルール</div>
-      <div>
-        <div class="rule-row"><span class="pill pill-s">出席</span><span style="color:var(--text2)">参加者テキストに名前（または名前の一部）が見つかった</span></div>
-        <div class="rule-row"><span class="pill pill-a">欠席</span><span style="color:var(--text2)">参加者テキストに名前が見つからなかった（5分以上遅刻・欠席含む）</span></div>
-        <div class="rule-row"><span class="pill pill-u">未照合</span><span style="color:var(--text2)">テキストにあるが名簿に一致しない名前（ニックネーム等）</span></div>
-      </div>
-      <p style="font-size:11px;color:var(--text3);margin-top:10px;line-height:1.7">
-        ※ 定刻の5分後にスクリーンショットを撮ることで「5分以上の遅刻＝欠席」が自動判定されます。
-      </p>
-    </div>
-  </div>
-
-  <!-- ROSTER TAB -->
-  <div id="page-roster" class="body" style="display:none">
-    <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-        <div>
-          <div style="font-size:15px;font-weight:600">メンバー名簿</div>
-          <div style="font-size:12px;color:var(--text3);margin-top:2px">このブラウザに保存されます</div>
+      <div class="card">
+        <div class="fr">
+          <label>名簿を選択</label>
+          <select id="sel-roster"></select>
         </div>
-        <span id="roster-badge" class="pill pill-s">0名</span>
-      </div>
-
-      <div id="roster-view">
-        <div id="roster-empty" class="empty" style="display:none">
-          <i class="ti ti-users empty-icon"></i>
-          <div style="font-size:14px;color:var(--text2);margin-bottom:16px">名簿が未登録です</div>
-          <button class="btn-primary" onclick="showRosterEdit()"><i class="ti ti-plus" style="font-size:15px"></i> 名簿を入力する</button>
+        <div class="fr">
+          <label>開催回・日付</label>
+          <input type="text" id="inp-label" placeholder="例：第3回ミートアップ（5/22）">
         </div>
-        <div id="roster-filled" style="display:none">
-          <input type="text" id="roster-search" placeholder="名前を検索..." style="width:100%;margin-bottom:12px" oninput="renderRosterList()">
-          <div class="roster-list" id="roster-list"></div>
-          <button class="btn-ghost" style="margin-top:14px" onclick="showRosterEdit()"><i class="ti ti-edit" style="font-size:14px"></i> 編集する</button>
+        <div class="fr">
+          <label>Zoom 参加者パネルのテキスト</label>
+          <div class="tip">
+            <span class="tip-icon">💡</span>
+            <span>定例開始から<strong>5分後</strong>に参加者パネルのテキストをコピーして貼り付けてください。<br>Windows：<strong>PowerToys Text Extractor</strong>&nbsp;/&nbsp;Mac：<strong>スクリーンショットのテキスト選択</strong>（詳細は右上の ? から）</span>
+          </div>
+          <textarea id="inp-text" placeholder="ここにテキストを貼り付け…"></textarea>
         </div>
+        <button class="btn btn-p btn-full" onclick="doProcess()">✓&nbsp;&nbsp;出欠を確認する</button>
       </div>
+    </div>
 
-      <div id="roster-edit" style="display:none">
-        <div class="section-label">名前を1行ずつ入力（スプレッドシートからコピペ可）</div>
-        <textarea class="mono" id="roster-textarea" rows="16" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;color:var(--text);outline:none" placeholder="田中太郎&#10;鈴木花子&#10;山田一郎&#10;..."></textarea>
-        <div style="display:flex;gap:10px;margin-top:12px">
-          <button class="btn-primary" onclick="saveRoster()"><i class="ti ti-device-floppy" style="font-size:15px"></i> 保存する</button>
-          <button class="btn-ghost" onclick="cancelRosterEdit()">キャンセル</button>
+    <div id="chk-result" style="display:none">
+      <button class="back-btn" onclick="backToForm()">← 入力画面に戻る</button>
+      <div class="card">
+        <div class="res-hd">
+          <div>
+            <div class="res-label" id="r-label"></div>
+            <div class="res-meta"  id="r-meta"></div>
+          </div>
+          <div class="btnrow">
+            <button id="btn-save" class="btn btn-p btn-sm" onclick="saveArc()">アーカイブに保存</button>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="sc sa on" onclick="flt('all',this)"><div class="sc-n" id="st-all">0</div><div class="sc-l">全員</div></div>
+          <div class="sc sp"    onclick="flt('present',this)"><div class="sc-n" id="st-p">0</div><div class="sc-l">出席</div></div>
+          <div class="sc sb"    onclick="flt('absent',this)"><div class="sc-n" id="st-a">0</div><div class="sc-l">欠席</div></div>
+          <div class="sc su"    onclick="flt('unknown',this)"><div class="sc-n" id="st-u">0</div><div class="sc-l">特定困難</div></div>
+        </div>
+        <div class="search-wr">
+          <span class="magnifying_glass search-ic"></span>
+          <input type="text" id="inp-search" placeholder="名前で検索…" oninput="renderTbl()">
+        </div>
+        <div class="tbl-wr">
+          <table class="tbl">
+            <thead><tr>
+              <th style="width:34%">名前</th>
+              <th style="width:20%">ステータス</th>
+              <th>備考</th>
+              <th style="width:18%">手動変更</th>
+            </tr></thead>
+            <tbody id="tbl-body"></tbody>
+          </table>
+        </div>
+        <div id="unm-sec" class="unm" style="display:none">
+          <div class="unm-title">⚠️ 未照合</div>
+          <div class="chips" id="unm-chips"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- RESULT TAB -->
-  <div id="page-result" class="body" style="display:none">
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
-      <div>
-        <div id="result-title" style="font-size:16px;font-weight:600"></div>
-        <div id="result-sub" style="font-size:12px;color:var(--text3);margin-top:3px"></div>
-      </div>
-      <button class="btn-ghost btn-sm" id="copy-btn" onclick="copyTsv()">
-        <i class="ti ti-copy" style="font-size:14px"></i> スプレッドシートにコピー
-      </button>
+  <!-- ═══ 名簿管理 ═══ -->
+  <div id="panel-roster" class="panel">
+    <div class="pg-hd">
+      <div class="pg-title">名簿管理</div>
+      <div class="pg-desc">サークルメンバーの名簿を作成・編集・削除できます</div>
     </div>
-
-    <div class="stats-grid">
-      <div class="stat active-s" id="stat-present" onclick="setFilter('present')">
-        <div class="stat-num" id="num-present" style="color:var(--teal-text)">0</div>
-        <div class="stat-lbl">出席</div>
-      </div>
-      <div class="stat" id="stat-absent" onclick="setFilter('absent')">
-        <div class="stat-num" id="num-absent" style="color:#791F1F">0</div>
-        <div class="stat-lbl">欠席</div>
-      </div>
-      <div class="stat" id="stat-all" onclick="setFilter('all')">
-        <div class="stat-num" id="num-all" style="color:var(--text)">0</div>
-        <div class="stat-lbl">全員</div>
-      </div>
+    <div class="btnrow" style="margin-bottom:18px">
+      <button class="btn btn-p" onclick="openMod()">＋ 新しい名簿を作成</button>
     </div>
+    <div id="roster-list"></div>
+  </div>
 
-    <div id="unmatched-block" style="display:none;margin-bottom:14px">
-      <div class="alert alert-warn">
-        <i class="ti ti-user-question" style="font-size:16px;flex-shrink:0"></i>
-        <div>
-          <div style="font-weight:600;margin-bottom:4px">名簿外の文字列 <span id="unmatched-count"></span></div>
-          <div style="font-size:11px;margin-bottom:6px">名簿と一致しませんでした。ニックネームや表示名の揺れを確認してください。</div>
-          <div class="unmatched-list" id="unmatched-list"></div>
-        </div>
-      </div>
+  <!-- ═══ アーカイブ ═══ -->
+  <div id="panel-archive" class="panel">
+    <div class="pg-hd">
+      <div class="pg-title">アーカイブ</div>
+      <div class="pg-desc">保存済みの出欠記録・累積欠席カウント・集計マトリックスを確認できます</div>
     </div>
+    <div id="warn-sec"></div>
+    <div class="sub-hd" style="margin-top:0">📂 保存済みセッション</div>
+    <div id="arc-list"></div>
+    <div id="mtx-sec"></div>
+  </div>
+</main>
 
-    <div class="att-list">
-      <div class="search-wrap">
-        <input class="search-input" type="text" id="result-search" placeholder="名前で絞り込み..." oninput="renderResultList()">
+<!-- ═══ 名簿モーダル ═══ -->
+<div class="mover" id="modal-ov" onclick="onOvClick(event)">
+  <div class="modal">
+    <button class="modal-x" onclick="closeMod()">✕</button>
+    <div class="modal-title" id="mod-title">名簿を作成</div>
+    <div class="fr">
+      <label>名簿名</label>
+      <input type="text" id="m-rname" placeholder="例：2025年度メンバー">
+    </div>
+    <div class="fr">
+      <label>メンバー</label>
+      <div class="tip" style="margin-bottom:10px">
+        <span class="tip-icon">💡</span>
+        <span>スペース（半角・全角）や改行で区切ると別の人として登録されます。スプレッドシートから列ごとコピペも可能です。</span>
       </div>
-      <div class="att-list-header">
-        <span></span><span>名前</span><span style="text-align:right">判定</span>
-      </div>
-      <div id="result-rows"></div>
+      <textarea id="m-members" style="min-height:200px" placeholder="田中太郎 鈴木花子 佐藤次郎&#10;または&#10;田中太郎&#10;鈴木花子&#10;佐藤次郎"></textarea>
+      <div class="hint" id="m-cnt">0名</div>
+    </div>
+    <div class="btnrow">
+      <button class="btn btn-p" onclick="saveRoster()">保存する</button>
+      <button class="btn btn-s" onclick="closeMod()">キャンセル</button>
     </div>
   </div>
 </div>
 
+<!-- ═══ ヘルプモーダル ═══ -->
+<div class="help-ov" id="help-ov" onclick="onHelpOvClick(event)">
+  <div class="help-modal" id="help-modal">
+    <div class="help-hd">
+      <div class="help-hd-title">📖 使い方ガイド</div>
+      <div class="help-hd-sub">MU 出欠管理ツールの操作方法</div>
+      <button class="help-close" onclick="closeHelp()">✕</button>
+    </div>
+    <div class="help-body">
+
+      <!-- 基本の流れ -->
+      <div class="help-section">
+        <div class="help-section-title">🚀 基本の使い方（3ステップ）</div>
+        <div class="help-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">名簿管理でメンバーを登録する</div>
+            <div class="step-desc">「名簿管理」タブを開き、<strong>新しい名簿を作成</strong>からメンバーの名前を入力します。スペースや改行で区切ると別の人として登録されます。スプレッドシートからのコピペもOK。</div>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">定例開始から 5分後 に参加者テキストを取得する</div>
+            <div class="step-desc">Zoom の参加者パネルを表示した状態で、下記の方法でテキストをコピーします。5分後にスクリーンショットを撮ることで「<strong>5分以上の遅刻＝欠席</strong>」が自動的に判定されます。</div>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">「出欠確認」タブにテキストを貼り付けて実行</div>
+            <div class="step-desc">名簿を選択し、コピーしたテキストを貼り付けて「出欠を確認する」を押します。結果を確認後、「アーカイブに保存」で記録を蓄積できます。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider-sm"></div>
+
+      <!-- ステータスの説明 -->
+      <div class="help-section">
+        <div class="help-section-title">📋 出欠ステータスについて</div>
+        <div class="status-row">
+          <div class="st-item"><span class="badge bp">出席</span>テキストに名前が一致</div>
+          <div class="st-item"><span class="badge ba">欠席</span>テキストに名前がない</div>
+          <div class="st-item"><span class="badge bu">特定困難</span>部分一致または同姓同名</div>
+        </div>
+        <div class="step-desc" style="margin-top:10px">「特定困難」になった行には <strong>→ 出席 / → 欠席</strong> ボタンが表示されます。状況を確認して手動で分類できます。</div>
+      </div>
+
+      <div class="divider-sm"></div>
+
+      <!-- Windows -->
+      <div class="help-section">
+        <div class="help-section-title">🖥️ Windows でのテキスト取得（PowerToys）</div>
+        <div class="help-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">PowerToys をインストール</div>
+            <div class="step-desc">Microsoft Store または <strong>github.com/microsoft/PowerToys</strong> からインストールします（無料）。</div>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Text Extractor を起動</div>
+            <div class="step-desc">デフォルトのショートカット <code>Win + Shift + T</code> を押すと画面が暗くなります。</div>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">参加者パネルを範囲選択</div>
+            <div class="step-desc">Zoom の参加者一覧が表示されている部分をドラッグで囲むと、テキストが自動でクリップボードにコピーされます。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider-sm"></div>
+
+      <!-- Mac 方法1 -->
+      <div class="help-section">
+        <div class="help-section-title">🍎 Mac でのテキスト取得　方法①：スクリーンショット標準機能</div>
+        <div class="kbd-block">
+          <div class="kbd-row">
+            <span>スクリーンショットを起動：</span>
+            <span class="kbd">⌘ Command</span><span class="kbd-arrow">+</span>
+            <span class="kbd">⇧ Shift</span><span class="kbd-arrow">+</span>
+            <span class="kbd">4</span>
+          </div>
+        </div>
+        <div class="step-desc" style="margin-top:10px">範囲選択カーソルが出たら、参加者パネルの文字が写っている部分をドラッグします。撮影された画像にカーソルを合わせると <strong>テキスト選択ボタン</strong> が出るので、全テキストを選択してコピーします。</div>
+      </div>
+
+      <div class="divider-sm"></div>
+
+      <!-- Mac 方法2 -->
+      <div class="help-section">
+        <div class="help-section-title">🍎 Mac でのテキスト取得　方法②：ショートカットアプリで自動化（おすすめ）</div>
+        <div class="help-tip">
+          <b>💡 一度設定すると、範囲を囲むだけで即テキストがコピーされる最速の方法です。</b><br>
+          Windows の PowerToys に近い感覚で使えます。
+        </div>
+        <div class="help-step" style="margin-top:14px">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">「ショートカット」アプリを起動する</div>
+            <div class="step-desc">Mac 標準アプリ（ひし形が重なったアイコン）を開き、画面上部の <strong>＋（新規作成）</strong> をクリックします。</div>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">3つのアクションを順番に追加する</div>
+            <div class="step-desc">右上の検索窓から以下を探し、左側のエリアにこの順番で並べます。</div>
+            <div class="help-sub-list">
+              <div class="help-sub-item">「スクリーンショットを撮る」</div>
+              <div class="help-sub-item">「画像からテキストを抽出」</div>
+              <div class="help-sub-item">「クリップボードにコピー」</div>
+            </div>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">スクリーンショットの設定を「範囲指定」に変える ← ここが重要！</div>
+            <div class="step-desc">1番目の「スクリーンショットを撮る」の横の矢印を開き、設定を変更します。</div>
+            <div class="kbd-block" style="margin-top:8px">
+              <div class="kbd-row"><span class="kbd">フルスクリーン</span><span class="kbd-arrow">→</span><span class="kbd">インタラクティブ</span></div>
+              <div class="kbd-row" style="margin-top:6px"><span class="kbd">選択部分</span><span class="kbd-arrow">→</span><span class="kbd">カスタム</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">好きなキーボードショートカットを割り当てる</div>
+            <div class="step-desc">画面右側の <strong>i（詳細）</strong> アイコンをクリックし、「キーボードショートカットを追加」を選択。<br>例えば Windows に近い感覚にするために以下がおすすめです。</div>
+            <div class="kbd-block" style="margin-top:8px">
+              <div class="kbd-row">
+                <span class="kbd">⇧ Shift</span><span class="kbd-arrow">+</span>
+                <span class="kbd">⌘ Command</span><span class="kbd-arrow">+</span>
+                <span class="kbd">X</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="help-tip" style="margin-top:12px">
+          <b>使い方：</b>設定したショートカット（例：Shift+Command+X）を押すと画面が暗くなり、範囲選択カーソルが出ます。文字がある部分をビッと囲むだけで、裏で自動的に文字がコピーされます。あとは貼り付けたい場所で <b>Command + V</b> するだけ！
+        </div>
+      </div>
+
+      <div class="divider-sm"></div>
+
+      <!-- アーカイブ説明 -->
+      <div class="help-section">
+        <div class="help-section-title">📂 アーカイブ・スプレッドシート連携</div>
+        <div class="help-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">毎回アーカイブに保存する</div>
+            <div class="step-desc">出欠確認後に「アーカイブに保存」を押すと、参加回・日付ラベルとともに記録が蓄積されます。</div>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">集計マトリックスをスプレッドシートにコピー</div>
+            <div class="step-desc">アーカイブタブ下部の集計マトリックスに 2種類のコピーボタン があります。<br>
+            <strong>「ヘッダー付き」</strong>…回名・メンバー名を含む形式<br>
+            <strong>「値のみ（TRUE/FALSE）」</strong>…チェックボックスの値のみ</div>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">欠席リスクの自動警告</div>
+            <div class="step-desc">欠席が <strong>3回以上</strong> で⚠️警告、<strong>5回以上</strong> で⛔危険表示がアーカイブタブ上部に自動で出ます。</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-let roster = [];
-let results = null;
-let currentFilter = 'all';
+var rosters={},archive=[],cur=null,curFlt='all',editId=null,expId=null;
+(function(){
+  try{rosters=JSON.parse(localStorage.getItem('mu_rosters')||'{}')}catch(e){}
+  try{archive=JSON.parse(localStorage.getItem('mu_archive')||'[]')}catch(e){}
+  updSel();renderRosters();renderArc();
+})();
 
-function loadRoster() {
-  try {
-    const raw = localStorage.getItem('posse-roster-v1');
-    if (raw) roster = JSON.parse(raw);
-  } catch(e) {}
-  updateRosterUI();
+function persist(){
+  localStorage.setItem('mu_rosters',JSON.stringify(rosters));
+  localStorage.setItem('mu_archive',JSON.stringify(archive));
 }
 
-function saveRoster() {
-  const ta = document.getElementById('roster-textarea');
-  const lines = ta.value.split('\n').map(s => s.trim()).filter(Boolean);
-  roster = [...new Set(lines)];
-  try { localStorage.setItem('posse-roster-v1', JSON.stringify(roster)); } catch(e) {}
-  updateRosterUI();
-  showRosterView();
+/* ── Tabs ── */
+function sw(id,btn){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on')});
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on')});
+  document.getElementById('panel-'+id).classList.add('on');
+  btn.classList.add('on');
+  if(id==='archive')renderArc();
 }
 
-function updateRosterUI() {
-  const badge = document.getElementById('roster-badge');
-  const countBadge = document.getElementById('roster-count-badge');
-  badge.textContent = roster.length + '名';
-  if (roster.length > 0) {
-    countBadge.textContent = roster.length + '名';
-    countBadge.style.display = '';
-    document.getElementById('roster-empty').style.display = 'none';
-    document.getElementById('roster-filled').style.display = '';
-    document.getElementById('scan-no-roster').style.display = 'none';
-  } else {
-    countBadge.style.display = 'none';
-    document.getElementById('roster-empty').style.display = '';
-    document.getElementById('roster-filled').style.display = 'none';
-    document.getElementById('scan-no-roster').style.display = '';
+/* ── Help modal ── */
+function openHelp(){document.getElementById('help-ov').classList.add('open')}
+function closeHelp(){document.getElementById('help-ov').classList.remove('open')}
+function onHelpOvClick(e){if(e.target===document.getElementById('help-ov'))closeHelp()}
+
+/* ── Roster modal ── */
+function openMod(id){
+  editId=id||null;
+  document.getElementById('mod-title').textContent=id?'名簿を編集':'名簿を新規作成';
+  document.getElementById('m-rname').value=id&&rosters[id]?rosters[id].name:'';
+  document.getElementById('m-members').value=id&&rosters[id]?rosters[id].members.join('\n'):'';
+  updCnt();
+  document.getElementById('modal-ov').classList.add('open');
+  setTimeout(function(){document.getElementById('m-rname').focus()},60);
+}
+function closeMod(){document.getElementById('modal-ov').classList.remove('open')}
+function onOvClick(e){if(e.target===document.getElementById('modal-ov'))closeMod()}
+function parseMembers(raw){return raw.split(/[\s\u3000]+/).map(function(s){return s.trim()}).filter(Boolean)}
+function updCnt(){var n=parseMembers(document.getElementById('m-members').value).length;document.getElementById('m-cnt').textContent=n+'名'}
+document.getElementById('m-members').addEventListener('input',updCnt);
+
+/* ── Roster CRUD ── */
+function saveRoster(){
+  var nm=document.getElementById('m-rname').value.trim();
+  var raw=document.getElementById('m-members').value;
+  if(!nm){toast('名簿名を入力してください');return}
+  var mb=parseMembers(raw);
+  if(!mb.length){toast('メンバーを1名以上入力してください');return}
+  var id=editId||('r'+Date.now());
+  rosters[id]={name:nm,members:mb};
+  persist();renderRosters();updSel();closeMod();
+  toast(editId?'名簿を更新しました':'名簿を作成しました');
+}
+function delRoster(id){
+  if(!confirm('「'+rosters[id].name+'」を削除しますか？'))return;
+  delete rosters[id];persist();renderRosters();updSel();toast('名簿を削除しました');
+}
+function togRoster(id){
+  var el=document.getElementById('ritem-'+id);
+  if(el)el.classList.toggle('open');
+}
+function renderRosters(){
+  var el=document.getElementById('roster-list');
+  var ids=Object.keys(rosters);
+  if(!ids.length){el.innerHTML=emptyH('📝','名簿が登録されていません','「新しい名簿を作成」から追加してください');return}
+  el.innerHTML=ids.map(function(id){
+    var members=rosters[id].members;
+    var listItems=members.map(function(m){return'<div class="member-list-item">'+esc(m)+'</div>'}).join('');
+    return'<div class="ritem" id="ritem-'+id+'">'
+      +'<div class="ritem-hd">'
+        +'<div class="rinfo">'
+          +'<div class="rname">'+esc(rosters[id].name)+'</div>'
+          +'<div class="rmeta">'+members.length+'名登録</div>'
+        +'</div>'
+        +'<div class="ract">'
+          +'<button class="roster-toggle" onclick="togRoster(\''+id+'\')">'
+            +'メンバー一覧 <span class="chev">▼</span>'
+          +'</button>'
+          +'<button class="btn btn-g btn-sm" onclick="openMod(\''+id+'\')">編集</button>'
+          +'<button class="btn btn-d btn-sm" onclick="delRoster(\''+id+'\')">削除</button>'
+        +'</div>'
+      +'</div>'
+      +'<div class="roster-members">'
+        +'<div class="member-list">'+listItems+'</div>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+function updSel(){
+  var s=document.getElementById('sel-roster');var v=s.value;
+  s.innerHTML='<option value="">── 名簿を選択してください ──</option>';
+  Object.keys(rosters).forEach(function(id){
+    var o=document.createElement('option');
+    o.value=id;o.textContent=rosters[id].name+'（'+rosters[id].members.length+'名）';
+    s.appendChild(o);
+  });
+  if(v&&rosters[v])s.value=v;
+}
+
+/* ── Text processing ── */
+var NOISE=['ホスト','共同ホスト','参加者','ミュート解除','ミュート','待機中','接続中','再接続中','あなた','手を挙げている','ビデオの開始','ビデオの停止','セキュリティ','チャット','退出','入室','全員','管理','画面共有','レコーディング','反応','スポットライト','Host','Co-host','Co-Host','Participant','Participants','Unmuted','Muted','Waiting','Connecting','Reconnecting','You','Everyone','Chat'].sort(function(a,b){return b.length-a.length});
+function prep(t){var s=t.replace(/[\(\)（）\[\]【】「」｢｣『』《》〈〉|｜\/／＼\\・]/g,' ').replace(/\d+\s*[名人]/g,' ');NOISE.forEach(function(w){s=s.split(w).join(' ')});return s}
+function rmsp(s){return s.replace(/[\s\u3000]/g,'')}
+
+/* ── Process attendance ── */
+function doProcess(){
+  var rid=document.getElementById('sel-roster').value;
+  if(!rid||!rosters[rid]){toast('名簿を選択してください');return}
+  var raw=document.getElementById('inp-text').value;
+  if(!raw.trim()){toast('テキストを貼り付けてください');return}
+  var lbl=document.getElementById('inp-label').value.trim()||('確認 '+new Date().toLocaleDateString('ja-JP'));
+  var roster=rosters[rid];var mbs=roster.members;
+  var norm=rmsp(prep(raw));var len=norm.length;
+  var normM=mbs.map(function(m){return rmsp(m)});
+  var seen={};var uniq=[];normM.forEach(function(n){if(!seen[n]){seen[n]=1;uniq.push(n)}});
+  uniq.sort(function(a,b){return b.length-a.length});
+  var used=new Uint8Array(len);var tmc={};
+  uniq.forEach(function(nm){
+    var cnt=0,idx=0;
+    while(idx<=len-nm.length){
+      var f=norm.indexOf(nm,idx);if(f===-1)break;
+      var ov=false;for(var i=f;i<f+nm.length;i++)if(used[i]){ov=true;break}
+      if(!ov){cnt++;for(var ii=f;ii<f+nm.length;ii++)used[ii]=1;idx=f+nm.length}else idx=f+1;
+    }
+    tmc[nm]=cnt;
+  });
+  var results=[];var done={};
+  mbs.forEach(function(mb,mi){
+    var nm=normM[mi];if(done[nm])return;done[nm]=1;
+    var rc=normM.filter(function(n){return n===nm}).length;
+    var tc=tmc[nm]||0;
+    var di=mbs.reduce(function(a,m,i){if(rmsp(m)===nm)a.push(i);return a},[]);
+    if(rc===1){
+      if(tc>=1)results.push({name:mb,status:'present',note:'',manualOverride:false});
+      else{var pt=findPart(nm,norm,used);if(pt)results.push({name:mb,status:'unknown',note:'部分一致：「'+pt+'」',manualOverride:false});else results.push({name:mb,status:'absent',note:'',manualOverride:false})}
+    }else{
+      if(tc>=rc)di.forEach(function(i,j){results.push({name:mbs[i],status:'present',note:'同姓同名（'+(j+1)+'人目）',manualOverride:false})});
+      else if(tc===0)di.forEach(function(i,j){results.push({name:mbs[i],status:'absent',note:'同姓同名（'+(j+1)+'人目）',manualOverride:false})});
+      else di.forEach(function(i,j){results.push({name:mbs[i],status:'unknown',note:'同姓同名・特定困難（'+(j+1)+'人目）',manualOverride:false})});
+    }
+  });
+  var unmatched=extractUnm(norm,used);
+  cur={id:'a'+Date.now(),label:lbl,date:new Date().toISOString(),rosterName:roster.name,rosterId:rid,results:results,unmatched:unmatched};
+  curFlt='all';
+  document.getElementById('chk-form').style.display='none';
+  document.getElementById('chk-result').style.display='block';
+  renderResult();
+}
+
+function findPart(nm,norm,used){
+  if(nm.length<2)return null;
+  for(var l=nm.length-1;l>=2;l--){
+    for(var s=0;s<=nm.length-l;s++){
+      var sub=nm.substring(s,s+l);var idx=0;
+      while(idx<=norm.length-sub.length){
+        var f=norm.indexOf(sub,idx);if(f===-1)break;
+        var free=true;for(var i=f;i<f+sub.length;i++)if(used[i]){free=false;break}
+        if(free)return sub;idx=f+1;
+      }
+    }
   }
-  renderRosterList();
+  return null;
+}
+function extractUnm(norm,used){
+  var s='';for(var i=0;i<norm.length;i++)s+=used[i]?'\x00':norm[i];
+  var re=/[\u3041-\u9FFF\uF900-\uFAFF]{2,}/g;
+  var noise={'参加':1,'退出':1,'音声':1,'画面':1,'共有':1,'設定':1,'会議':1,'ミュート':1,'解除':1,'ホスト':1,'スポット':1,'全体':1};
+  var found=[];var m;while((m=re.exec(s))!==null)found.push(m[0]);
+  var dedup=[];var dseen={};found.forEach(function(w){if(!dseen[w]&&!noise[w]){dseen[w]=1;dedup.push(w)}});
+  return dedup.slice(0,24);
 }
 
-function renderRosterList() {
-  const q = (document.getElementById('roster-search')?.value || '').trim();
-  const filtered = q ? roster.filter(n => n.includes(q)) : roster;
-  const el = document.getElementById('roster-list');
-  if (!el) return;
-  el.innerHTML = filtered.map(n => {
-    const idx = roster.indexOf(n) + 1;
-    return `<div class="roster-item"><span class="roster-item-num">${idx}</span><span>${n}</span></div>`;
+/* ── Manual classify ── */
+function classify(idx,toStatus){
+  if(!cur||!cur.results[idx])return;
+  var r=cur.results[idx];
+  r.status=toStatus;r.manualOverride=true;
+  r.note=r.note+(r.note?'　':'')+'（手動：'+(toStatus==='present'?'出席':'欠席')+'）';
+  renderResult();
+}
+function revert(idx){
+  if(!cur||!cur.results[idx])return;
+  var r=cur.results[idx];
+  r.status='unknown';
+  r.note=r.note.replace(/\u3000?\uff08手動[\uff1a：][^\uff09）]+[\uff09）]/g,'').replace(/\s+$/,'');
+  r.manualOverride=false;
+  renderResult();
+}
+function backToForm(){document.getElementById('chk-result').style.display='none';document.getElementById('chk-form').style.display='block'}
+
+/* ── Render result ── */
+function renderResult(){
+  if(!cur)return;
+  var p=cur.results.filter(function(r){return r.status==='present'}).length;
+  var a=cur.results.filter(function(r){return r.status==='absent'}).length;
+  var u=cur.results.filter(function(r){return r.status==='unknown'}).length;
+  var t=cur.results.length;
+  document.getElementById('r-label').textContent=cur.label;
+  document.getElementById('r-meta').textContent='名簿：'+cur.rosterName+'　全'+t+'名';
+  document.getElementById('st-all').textContent=t;
+  document.getElementById('st-p').textContent=p;
+  document.getElementById('st-a').textContent=a;
+  document.getElementById('st-u').textContent=u;
+  var saved=archive.some(function(s){return s.id===cur.id});
+  var btn=document.getElementById('btn-save');
+  btn.textContent=saved?'✓ 保存済み':'アーカイブに保存';btn.disabled=saved;
+  var unmS=document.getElementById('unm-sec');
+  if(cur.unmatched.length){unmS.style.display='block';document.getElementById('unm-chips').innerHTML=cur.unmatched.map(function(u){return'<span class="chip">'+esc(u)+'</span>'}).join('')}
+  else unmS.style.display='none';
+  renderTbl();
+}
+function renderTbl(){
+  if(!cur)return;
+  var si=document.getElementById('inp-search');
+  var srch=si?si.value.toLowerCase():'';var ns=rmsp(srch);
+  var allRows=cur.results.map(function(r,i){return{r:r,i:i}});
+  var rows=allRows.slice();
+  if(curFlt!=='all')rows=rows.filter(function(x){return x.r.status===curFlt});
+  if(srch)rows=rows.filter(function(x){return x.r.name.toLowerCase().indexOf(srch)>=0||rmsp(x.r.name).indexOf(ns)>=0});
+  var SL={present:'出席',absent:'欠席',unknown:'特定困難'};
+  var BC={present:'bp',absent:'ba',unknown:'bu'};
+  var tb=document.getElementById('tbl-body');
+  if(!rows.length){tb.innerHTML='<tr><td colspan="4" style="text-align:center;padding:24px;color:var(--muted)">該当するメンバーがいません</td></tr>';return}
+  tb.innerHTML=rows.map(function(x){
+    var r=x.r;var i=x.i;
+    var actCell='<td class="td-act">';
+    if(r.status==='unknown'){actCell+='<button class="cls-btn cls-p" onclick="classify('+i+',\'present\')">→ 出席</button><button class="cls-btn cls-a" onclick="classify('+i+',\'absent\')">→ 欠席</button>'}
+    else if(r.manualOverride){actCell+='<button class="cls-btn" style="background:var(--bg);border:1px solid var(--bdr2);color:var(--tx3)" onclick="revert('+i+')">元に戻す</button>'}
+    actCell+='</td>';
+    return'<tr><td class="td-name">'+esc(r.name)+'</td><td><span class="badge '+BC[r.status]+'">'+SL[r.status]+'</span></td><td class="td-note">'+esc(r.note)+'</td>'+actCell+'</tr>';
+  }).join('');
+}
+function flt(f,el){curFlt=f;document.querySelectorAll('.sc').forEach(function(c){c.classList.remove('on')});el.classList.add('on');renderTbl()}
+
+/* ── Archive ── */
+function saveArc(){
+  if(!cur||archive.some(function(s){return s.id===cur.id}))return;
+  archive.unshift(JSON.parse(JSON.stringify(cur)));persist();
+  var btn=document.getElementById('btn-save');btn.textContent='✓ 保存済み';btn.disabled=true;
+  toast('アーカイブに保存しました');renderArc();
+}
+function delArc(id){
+  var s=archive.find(function(a){return a.id===id});
+  if(!confirm('「'+(s?s.label:id)+'」をアーカイブから削除しますか？'))return;
+  archive=archive.filter(function(a){return a.id!==id});
+  if(expId===id)expId=null;persist();renderArc();toast('削除しました');
+}
+function togExp(id){expId=expId===id?null:id;renderArc()}
+
+/* ── absCount: track by occurrence (same-name support) ── */
+function absCount(){
+  var c={};
+  archive.forEach(function(s){
+    var nameCnt={};
+    s.results.forEach(function(r){
+      var n=r.name;
+      nameCnt[n]=(nameCnt[n]||0)+1;
+      var key=n+'__'+nameCnt[n];
+      if(!c[key])c[key]={present:0,absent:0,unknown:0,name:n};
+      c[key][r.status]++;
+    });
+  });
+  return c;
+}
+
+/* ── buildMtx: preserve duplicate member names ── */
+function buildMtx(){
+  if(!archive.length)return null;
+  /* Build member list in roster order, preserving duplicates
+     Key = name + "__" + occurrence number (1-based) */
+  var keySet={};var mOrder=[];
+  archive.forEach(function(s){
+    var nameCnt={};
+    s.results.forEach(function(r){
+      var n=r.name;
+      nameCnt[n]=(nameCnt[n]||0)+1;
+      var key=n+'__'+nameCnt[n];
+      if(!keySet[key]){keySet[key]=1;mOrder.push({name:n,key:key,occ:nameCnt[n]})}
+    });
+  });
+  return{members:mOrder,sessions:archive.slice().reverse()};
+}
+
+/* Find the occ-th result with given name in a session */
+function findByOcc(session,name,occ){
+  var cnt=0;
+  for(var i=0;i<session.results.length;i++){
+    if(session.results[i].name===name){
+      cnt++;if(cnt===occ)return session.results[i];
+    }
+  }
+  return null;
+}
+
+/* ── Copy matrix ── */
+function copyMtx(withHeaders){
+  var m=buildMtx();if(!m){toast('アーカイブが空です');return}
+  var lines=[];
+  if(withHeaders){
+    /* Row 1: header with member names (show name only, duplicates get (1)(2) suffix) */
+    var nameCntH={};
+    var hCells=m.members.map(function(mb){
+      nameCntH[mb.name]=(nameCntH[mb.name]||0)+1;
+      return mb.name+(mb.occ>1?'('+mb.occ+')':'');
+    });
+    lines.push('\t'+hCells.join('\t'));
+    /* Rows: session label + TRUE/FALSE */
+    m.sessions.forEach(function(s){
+      var cells=m.members.map(function(mb){
+        var r=findByOcc(s,mb.name,mb.occ);
+        return(!r||r.status!=='present')?'FALSE':'TRUE';
+      });
+      lines.push(s.label+'\t'+cells.join('\t'));
+    });
+  }else{
+    /* Values only: no headers, no session labels */
+    m.sessions.forEach(function(s){
+      var cells=m.members.map(function(mb){
+        var r=findByOcc(s,mb.name,mb.occ);
+        return(!r||r.status!=='present')?'FALSE':'TRUE';
+      });
+      lines.push(cells.join('\t'));
+    });
+  }
+  copyText(lines.join('\n'));
+  toast(withHeaders?'ヘッダー付きでコピーしました':'値（TRUE/FALSE）のみコピーしました');
+}
+
+function renderArc(){renderWarn();renderArcList();renderMtx()}
+
+function renderWarn(){
+  var el=document.getElementById('warn-sec');
+  if(!archive.length){el.innerHTML='';return}
+  var c=absCount();var danger=[];var warn=[];
+  Object.keys(c).forEach(function(key){
+    var v=c[key];var ab=v.absent+v.unknown;
+    var dispName=v.name;
+    if(ab>=5)danger.push({nm:dispName,ab:ab});
+    else if(ab>=3)warn.push({nm:dispName,ab:ab});
+  });
+  danger.sort(function(a,b){return b.ab-a.ab});warn.sort(function(a,b){return b.ab-a.ab});
+  if(!danger.length&&!warn.length){el.innerHTML='';return}
+  var html='';
+  if(danger.length)html+='<div class="risk-box danger"><div class="risk-title danger">⛔ 活動停止ライン到達（5回以上欠席）</div><div class="risk-chips">'+danger.map(function(d){return'<span class="rchip d">'+esc(d.nm)+'&nbsp;<strong>'+d.ab+'回</strong></span>'}).join('')+'</div></div>';
+  if(warn.length)html+='<div class="risk-box warn"><div class="risk-title warn">⚠️ 欠席が多いメンバー（3〜4回欠席）</div><div class="risk-chips">'+warn.map(function(w){return'<span class="rchip w">'+esc(w.nm)+'&nbsp;<strong>'+w.ab+'回</strong></span>'}).join('')+'</div></div>';
+  el.innerHTML=html;
+}
+
+function renderArcList(){
+  var el=document.getElementById('arc-list');
+  if(!archive.length){el.innerHTML=emptyH('📂','保存済みセッションがありません','出欠確認後に「アーカイブに保存」してください');return}
+  var SL={present:'出席',absent:'欠席',unknown:'特定困難'};
+  var BC={present:'bp',absent:'ba',unknown:'bu'};
+  el.innerHTML=archive.map(function(s){
+    var p=s.results.filter(function(r){return r.status==='present'}).length;
+    var a=s.results.filter(function(r){return r.status==='absent'}).length;
+    var u=s.results.filter(function(r){return r.status==='unknown'}).length;
+    var t=s.results.length;
+    var ds=new Date(s.date).toLocaleDateString('ja-JP',{year:'numeric',month:'short',day:'numeric'});
+    var ex=expId===s.id;
+    var det=ex?('<div class="arc-detail"><table class="tbl" style="margin-top:4px"><thead><tr><th style="width:40%">名前</th><th style="width:22%">ステータス</th><th>備考</th></tr></thead><tbody>'+s.results.map(function(r){return'<tr><td class="td-name">'+esc(r.name)+'</td><td><span class="badge '+BC[r.status]+'">'+SL[r.status]+'</span></td><td class="td-note">'+esc(r.note)+'</td></tr>'}).join('')+'</tbody></table>'+(s.unmatched&&s.unmatched.length?'<div class="unm" style="margin-top:12px"><div class="unm-title">未照合</div><div class="chips">'+s.unmatched.map(function(u){return'<span class="chip">'+esc(u)+'</span>'}).join('')+'</div></div>':'')+'</div>'):'';
+    return'<div class="arc-card'+(ex?' ex':'')+'"><div class="arc-hd" onclick="togExp(\''+s.id+'\')"><div class="arc-info"><div class="arc-lbl">'+esc(s.label)+'</div><div class="arc-sub">'+ds+'　名簿：'+esc(s.rosterName)+'　全'+t+'名</div></div><div class="arc-stats"><span class="mini-st ms-p">出席&nbsp;'+p+'</span><span class="mini-st ms-a">欠席&nbsp;'+a+'</span>'+(u?'<span class="mini-st ms-u">困難&nbsp;'+u+'</span>':'')+'</div><div class="arc-del" onclick="event.stopPropagation()"><button class="btn btn-d btn-sm" onclick="delArc(\''+s.id+'\')">削除</button></div><div class="arc-chev">▼</div></div>'+det+'</div>';
   }).join('');
 }
 
-function showRosterEdit() {
-  document.getElementById('roster-view').style.display = 'none';
-  document.getElementById('roster-edit').style.display = '';
-  document.getElementById('roster-textarea').value = roster.join('\n');
+function renderMtx(){
+  var el=document.getElementById('mtx-sec');
+  var m=buildMtx();if(!m||!m.sessions.length){el.innerHTML='';return}
+  var c=absCount();
+  /* Build header: show name, append (2) for second occurrence */
+  var nameCntH={};
+  var hdr=m.members.map(function(mb){
+    nameCntH[mb.name]=(nameCntH[mb.name]||0)+1;
+    var dispNm=esc(mb.name)+(mb.occ>1?'<sub style="font-size:10px">('+mb.occ+')</sub>':'');
+    var key=mb.key;
+    var ab=(c[key]?c[key].absent+c[key].unknown:0);
+    var cls=ab>=5?'mth-danger':ab>=3?'mth-warn':'';
+    return'<th class="mth-mb '+cls+'">'+dispNm+'</th>';
+  }).join('');
+  var rows=m.sessions.map(function(s){
+    var cells=m.members.map(function(mb){
+      var r=findByOcc(s,mb.name,mb.occ);
+      var st=r?r.status:'absent';
+      if(st==='present')return'<td class="mc mc-p">✓</td>';
+      if(st==='unknown')return'<td class="mc mc-u">?</td>';
+      return'<td class="mc mc-a"></td>';
+    }).join('');
+    return'<tr><td class="mtd-sess">'+esc(s.label)+'</td>'+cells+'</tr>';
+  }).join('');
+  el.innerHTML='<div class="div"></div>'
+    +'<div class="sub-hd">📊 集計マトリックス</div>'
+    +'<div class="matrix-outer"><table class="mtx"><thead><tr><th class="mth-sess">回</th>'+hdr+'</tr></thead><tbody>'+rows+'</tbody></table></div>'
+    +'<div class="mtx-legend"><span>✓ 出席</span><span>? 特定困難</span><span>空白 欠席</span><span style="color:var(--amber)">⚠ 名前オレンジ：3回以上欠席</span><span style="color:var(--red)">⛔ 名前赤：5回以上欠席</span></div>'
+    +'<div class="copy-opts">'
+      +'<div class="copy-opts-label">📋 スプレッドシートへコピー</div>'
+      +'<button class="btn btn-p btn-sm" onclick="copyMtx(true)">ヘッダー付きでコピー</button>'
+      +'<button class="btn btn-s btn-sm" onclick="copyMtx(false)">値のみ（TRUE/FALSE）</button>'
+    +'</div>'
+    +'<p style="font-size:13px;color:var(--tx3);margin-top:8px">Googleスプレッドシートに貼り付けると、TRUE/FALSE をチェックボックスの値として直接使えます。</p>';
 }
 
-function showRosterView() {
-  document.getElementById('roster-view').style.display = '';
-  document.getElementById('roster-edit').style.display = 'none';
+/* ── Utils ── */
+function copyText(t){
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).catch(function(){fbCopy(t)})}else fbCopy(t);
 }
-
-function cancelRosterEdit() {
-  showRosterView();
-}
-
-// ---- TEXT ANALYSIS ----
-function normalize(s) {
-  return s.replace(/[\s\u3000]/g, '').toLowerCase();
-}
-
-// noise words to strip from each line before matching
-const NOISE = ['ホスト','host','共同ホスト','co-host','cohost','参加者','ミュート','mute',
-  '(マイクミュート)','unmuted','muted','video','off','on','waiting','接続中','待機中',
-  'you','あなた','手を挙げている'];
-
-function cleanLine(line) {
-  let s = line.trim();
-  NOISE.forEach(w => { s = s.replace(new RegExp(w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'), ''); });
-  s = s.replace(/[()（）\[\]【】「」\|｜\/\\]/g, ' ');
-  s = s.replace(/\s+/g, ' ').trim();
-  return s;
-}
-
-function analyze() {
-  const pasteText = document.getElementById('paste-input').value;
-  const errEl = document.getElementById('scan-err');
-  errEl.style.display = 'none';
-
-  if (!pasteText.trim()) {
-    errEl.innerHTML = '<i class="ti ti-alert-circle" style="font-size:15px;flex-shrink:0"></i><span>テキストが空です。Zoomの参加者テキストを貼り付けてください。</span>';
-    errEl.style.display = 'flex';
-    return;
-  }
-  if (!roster.length) {
-    errEl.innerHTML = '<i class="ti ti-alert-circle" style="font-size:15px;flex-shrink:0"></i><span>名簿が未登録です。先に「名簿管理」でメンバーを登録してください。</span>';
-    errEl.style.display = 'flex';
-    return;
-  }
-
-  const lines = pasteText.split('\n');
-  const cleanedLines = lines.map(cleanLine).filter(Boolean);
-  const allCleanText = normalize(cleanedLines.join(' '));
-
-  // For each roster member: check if their normalized name appears in the text
-  const attendance = roster.map(name => {
-    const normName = normalize(name);
-    if (normName.length < 2) return { name, status: '欠席' };
-    const found = cleanedLines.some(line => normalize(line).includes(normName));
-    return { name, status: found ? '出席' : '欠席' };
-  });
-
-  // Unmatched: tokens from cleaned lines that don't match any roster member
-  const presentNorms = new Set(roster.filter(n => attendance.find(a=>a.name===n&&a.status==='出席')).map(normalize));
-  const unmatched = [];
-  cleanedLines.forEach(line => {
-    const norm = normalize(line);
-    if (!norm || norm.length < 2) return;
-    const matchedAny = roster.some(n => normalize(n).length >= 2 && norm.includes(normalize(n)));
-    if (!matchedAny && norm.length >= 2) {
-      // only add if it looks like a name (not a single char or pure number)
-      if (!/^\d+$/.test(norm) && norm.length >= 2) {
-        const display = line.replace(/\s+/g,' ').trim();
-        if (display && !unmatched.includes(display)) unmatched.push(display);
-      }
-    }
-  });
-
-  const session = document.getElementById('session-label').value || '今回';
-  results = {
-    session,
-    ts: new Date().toLocaleString('ja-JP'),
-    attendance,
-    unmatched: unmatched.filter(u => u.length >= 2 && u.length <= 20)
-  };
-
-  currentFilter = 'all';
-  renderResults();
-  switchTab('result');
-}
-
-function renderResults() {
-  if (!results) return;
-  const { session, ts, attendance, unmatched } = results;
-  const present = attendance.filter(a => a.status === '出席');
-  const absent = attendance.filter(a => a.status === '欠席');
-
-  document.getElementById('result-title').textContent = session + ' — 出欠結果';
-  document.getElementById('result-sub').textContent = ts + ' · 名簿 ' + attendance.length + '名';
-  document.getElementById('num-present').textContent = present.length;
-  document.getElementById('num-absent').textContent = absent.length;
-  document.getElementById('num-all').textContent = attendance.length;
-  document.getElementById('tab-result').style.display = '';
-
-  if (unmatched.length) {
-    document.getElementById('unmatched-block').style.display = '';
-    document.getElementById('unmatched-count').textContent = unmatched.length + '件';
-    document.getElementById('unmatched-list').innerHTML = unmatched.map(u => `<span class="unmatched-tag">${u}</span>`).join('');
-  } else {
-    document.getElementById('unmatched-block').style.display = 'none';
-  }
-
-  renderResultList();
-  updateFilterUI();
-}
-
-function renderResultList() {
-  if (!results) return;
-  const q = document.getElementById('result-search')?.value.trim() || '';
-  let list = results.attendance;
-  if (currentFilter === 'present') list = list.filter(a => a.status === '出席');
-  if (currentFilter === 'absent') list = list.filter(a => a.status === '欠席');
-  if (q) list = list.filter(a => a.name.includes(q));
-  const idx = (name) => roster.indexOf(name) + 1;
-  document.getElementById('result-rows').innerHTML = list.map(a => `
-    <div class="att-row">
-      <div class="att-idx">${idx(a.name)}</div>
-      <div class="att-name">${a.name}</div>
-      <div class="att-status"><span class="pill ${a.status==='出席'?'pill-s':'pill-a'}">${a.status}</span></div>
-    </div>`).join('');
-}
-
-function setFilter(f) {
-  currentFilter = f;
-  updateFilterUI();
-  renderResultList();
-}
-
-function updateFilterUI() {
-  ['present','absent','all'].forEach(f => {
-    const el = document.getElementById('stat-'+f);
-    el.className = 'stat' + (currentFilter===f?' active-'+f:'');
-  });
-}
-
-function copyTsv() {
-  if (!results) return;
-  const rows = ['名前\t出欠', ...results.attendance.map(a => `${a.name}\t${a.status}`)];
-  navigator.clipboard.writeText(rows.join('\n')).then(() => {
-    const btn = document.getElementById('copy-btn');
-    btn.classList.add('btn-copied');
-    btn.innerHTML = '<i class="ti ti-check" style="font-size:14px"></i> コピー済み';
-    setTimeout(() => {
-      btn.classList.remove('btn-copied');
-      btn.innerHTML = '<i class="ti ti-copy" style="font-size:14px"></i> スプレッドシートにコピー';
-    }, 2000);
-  });
-}
-
-// ---- TABS ----
-function switchTab(tab) {
-  ['scan','roster','result'].forEach(t => {
-    document.getElementById('page-'+t).style.display = t===tab ? '' : 'none';
-    document.getElementById('tab-'+t).classList.toggle('on', t===tab);
-  });
-  if (tab === 'roster') renderRosterList();
-}
-
-loadRoster();
+function fbCopy(t){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta)}
+function toast(msg){var el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(function(){el.classList.remove('show')},2800)}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function emptyH(icon,text,sub){return'<div class="empty"><div class="empty-icon">'+icon+'</div><div class="empty-text">'+text+'</div><div class="empty-sub">'+sub+'</div></div>'}
 </script>
 </body>
 </html>
