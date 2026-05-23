@@ -8,29 +8,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --p:      #152A7B;
-  --p-dark: #152A7B;
-  --p-lite: #EFF6FF;
-  --p-mid:  #BFDBFE;
-  --bg:     #F1F5F9;
-  --surf:   #FFFFFF;
-  --bdr:    #E2E8F0;
-  --bdr2:   #CBD5E1;
-  --tx:     #121d38;
-  --tx2:    #334155;
-  --tx3:    #64748B;
-  --muted:  #94A3B8;
-  --green:  #34a6e0;  --g-bg: #f0f8fc;  --g-bdr: #188dc9;
-  --red:    #e04441;  --r-bg: #FEF2F2;  --r-bdr: #F37472;
-  --amber:  #e69d32;  --a-bg: #FFFBEB;  --a-bdr: #F7BF6C;
-  --r:  8px; --rl: 12px;
-  --sh:  0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
-  --shm: 0 4px 12px rgba(0,0,0,.09), 0 2px 4px rgba(0,0,0,.05);
+  --p:#152A7B; --p-dark:#152A7B; --p-lite:#EFF6FF; --p-mid:#BFDBFE;
+  --bg:#F1F5F9; --surf:#FFFFFF; --bdr:#E2E8F0; --bdr2:#CBD5E1;
+  --tx:#121d38; --tx2:#334155; --tx3:#64748B; --muted:#94A3B8;
+  --green:#34a6e0; --g-bg:#f0f8fc; --g-bdr:#188dc9;
+  --red:#e04441;  --r-bg:#FEF2F2; --r-bdr:#F37472;
+  --amber:#e69d32;--a-bg:#FFFBEB; --a-bdr:#F7BF6C;
+  --r:8px; --rl:12px;
+  --sh:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
+  --shm:0 4px 12px rgba(0,0,0,.09),0 2px 4px rgba(0,0,0,.05);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Noto Sans JP',sans-serif;font-size:16px;line-height:1.7;color:var(--tx);background:var(--bg);min-height:100vh;-webkit-font-smoothing:antialiased}
-
-/* ── Header ── */
+/* Header */
 .hdr{position:sticky;top:0;z-index:50;background:var(--surf);border-bottom:2px solid var(--p);box-shadow:var(--sh)}
 .hdr-in{max-width:860px;margin:0 auto;padding:0 20px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .logo{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:700;color:var(--p);flex-shrink:0;white-space:nowrap}
@@ -39,12 +29,9 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:16px;line-height:1.7;color:
 .tab{padding:7px 14px;border:none;border-radius:var(--r);background:transparent;font-family:inherit;font-size:15px;font-weight:500;color:var(--tx3);cursor:pointer;transition:background .14s,color .14s;white-space:nowrap}
 .tab:hover{background:var(--bg);color:var(--tx)}
 .tab.on{background:var(--p-lite);color:var(--p);font-weight:700}
-
-/* Help button */
 .help-btn{width:32px;height:32px;border-radius:50%;border:2px solid var(--bdr2);background:transparent;font-family:inherit;font-size:16px;font-weight:700;color:var(--tx3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .13s,border-color .13s,color .13s}
 .help-btn:hover{background:var(--p-lite);border-color:var(--p);color:var(--p)}
-
-/* ── Help overlay ── */
+/* Help overlay */
 .help-ov{display:none;position:fixed;inset:0;background:rgba(15,23,42,.52);z-index:300;align-items:flex-start;justify-content:center;padding:32px 16px;overflow-y:auto}
 .help-ov.open{display:flex}
 .help-modal{background:var(--surf);border-radius:var(--rl);width:100%;max-width:680px;position:relative;box-shadow:0 24px 48px rgba(0,0,0,.20);overflow:hidden}
@@ -75,23 +62,19 @@ body{font-family:'Noto Sans JP',sans-serif;font-size:16px;line-height:1.7;color:
 .kbd-row:last-child{margin-bottom:0}
 .kbd{display:inline-flex;padding:3px 9px;background:var(--surf);border:1px solid var(--bdr2);border-radius:5px;box-shadow:0 1px 0 var(--bdr2);font-size:13px;font-weight:700;color:var(--tx2);white-space:nowrap}
 .kbd-arrow{color:var(--muted);font-size:12px}
-.help-badge{display:inline-flex;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;background:var(--p-lite);color:var(--p);border:1px solid var(--p-mid);margin-right:4px}
 .status-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .st-item{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--tx2)}
 .divider-sm{height:1px;background:var(--bdr);margin:16px 0}
-
-/* ── Layout ── */
+/* Layout */
 .main{max-width:860px;margin:0 auto;padding:28px 20px 72px}
 .panel{display:none}
 .panel.on{display:block}
 .pg-hd{margin-bottom:20px}
 .pg-title{font-size:18px;font-weight:700;color:var(--tx)}
 .pg-desc{font-size:14px;color:var(--tx3);margin-top:3px}
-
 /* Card */
 .card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);box-shadow:var(--sh);padding:24px}
 .card+.card{margin-top:16px}
-
 /* Form */
 .fr{margin-bottom:18px}
 .fr:last-child{margin-bottom:0}
@@ -103,7 +86,6 @@ select{cursor:pointer}
 .hint{font-size:13px;color:var(--muted);margin-top:5px}
 .tip{display:flex;gap:10px;padding:12px 14px;margin-bottom:14px;background:var(--p-lite);border:1px solid var(--p-mid);border-radius:var(--r);font-size:14px;line-height:1.65;color:#1E40AF}
 .tip-icon{flex-shrink:0;font-size:15px;margin-top:2px}
-
 /* Buttons */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border:none;border-radius:var(--r);font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:background .14s,opacity .14s;white-space:nowrap}
 .btn:disabled{opacity:.5;cursor:default}
@@ -120,17 +102,10 @@ select{cursor:pointer}
 .btnrow{display:flex;flex-wrap:wrap;gap:8px}
 .back-btn{display:inline-flex;align-items:center;gap:5px;border:none;background:transparent;font-family:inherit;font-size:14px;font-weight:600;color:var(--tx3);cursor:pointer;padding:4px 8px;border-radius:var(--r);transition:background .12s,color .12s;margin-bottom:16px}
 .back-btn:hover{background:var(--bdr);color:var(--tx)}
-
-/* .magnifying-glass */
-.magnifying_glass {display: inline-block;position: relative;width: 1em;height: 1em;color: #000;font-size: 20px;}
-.magnifying_glass::before {position: absolute;top: 0px;left: 0px;width: 0.7em;height: 0.7em;box-sizing: border-box;border: 0.15em solid currentColor;border-radius: 50%;background-color: #fff;content: "";}
-.magnifying_glass::after {position: absolute;top: 0px;left: 50%;z-index: -1;transform: rotate(-45deg);width: 0.15em;height: 1em;box-sizing: border-box;background-color: currentColor;content: "";}
-
 /* Result header */
 .res-hd{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:18px}
 .res-label{font-size:18px;font-weight:700}
 .res-meta{font-size:14px;color:var(--tx3);margin-top:2px}
-
 /* Stats */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
 .sc{background:var(--surf);border:2px solid var(--bdr);border-radius:var(--rl);padding:14px 10px;text-align:center;cursor:pointer;user-select:none;transition:border-color .13s,background .13s}
@@ -142,12 +117,14 @@ select{cursor:pointer}
 .sc.sp .sc-n{color:var(--green)}
 .sc.sb .sc-n{color:var(--red)}
 .sc.su .sc-n{color:var(--amber)}
-
 /* Search */
 .search-wr{position:relative;margin-bottom:14px}
 .search-wr input{padding-left:38px}
 .search-ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:15px}
-
+/* magnifying glass */
+.magnifying_glass{display:inline-block;position:relative;width:1em;height:1em;color:#000;font-size:20px}
+.magnifying_glass::before{position:absolute;top:0;left:0;width:.7em;height:.7em;box-sizing:border-box;border:.15em solid currentColor;border-radius:50%;background-color:#fff;content:""}
+.magnifying_glass::after{position:absolute;top:0;left:50%;z-index:-1;transform:rotate(-45deg);width:.15em;height:1em;box-sizing:border-box;background-color:currentColor;content:""}
 /* Table */
 .tbl-wr{overflow-x:auto}
 .tbl{width:100%;border-collapse:collapse;font-size:16px}
@@ -157,27 +134,28 @@ select{cursor:pointer}
 .tbl tbody tr:hover td{background:#FAFBFD}
 .td-name{font-weight:600}
 .td-note{font-size:13px;color:var(--tx3)}
-.td-act{white-space:nowrap}
-
+.td-act{white-space:nowrap;min-width:100px}
 /* Badges */
 .badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:13px;font-weight:700}
 .bp{background:var(--g-bg);color:var(--green);border:1px solid var(--g-bdr)}
 .ba{background:var(--r-bg);color:var(--red);border:1px solid var(--r-bdr)}
 .bu{background:var(--a-bg);color:var(--amber);border:1px solid var(--a-bdr)}
-
 /* Classify buttons */
-.cls-btn{display:inline-flex;align-items:center;padding:3px 8px;border:none;border-radius:5px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:background .12s;margin-left:4px}
+.cls-btn{display:inline-flex;align-items:center;padding:3px 7px;border:none;border-radius:5px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:background .12s;margin:1px 2px}
 .cls-p{background:var(--g-bg);color:var(--green);border:1px solid var(--g-bdr)}
-.cls-p:hover{background:var(--g-bdr);color:var(--g-bg)}
+.cls-p:hover{background:var(--g-bdr);color:#fff}
 .cls-a{background:var(--r-bg);color:var(--red);border:1px solid var(--r-bdr)}
-.cls-a:hover{background:var(--r-bdr);color:var(--r-bg)}
-
+.cls-a:hover{background:var(--r-bdr);color:#fff}
+.cls-r{background:var(--bg);border:1px solid var(--bdr2);color:var(--tx3)}
+.cls-r:hover{background:var(--bdr2)}
 /* Unmatched */
 .unm{margin-top:20px;padding-top:16px;border-top:1px solid var(--bdr)}
 .unm-title{font-size:13px;font-weight:700;color:var(--tx3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{display:inline-flex;padding:4px 12px;background:var(--bg);border:1px solid var(--bdr2);border-radius:999px;font-size:13px;color:var(--tx)}
-
+/* Single-session matrix */
+.cur-mtx-sec{margin-top:20px;padding-top:18px;border-top:1px solid var(--bdr)}
+.cur-mtx-title{font-size:14px;font-weight:700;color:var(--tx3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
 /* Roster list */
 .ritem{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);margin-bottom:8px;transition:border-color .13s;overflow:hidden}
 .ritem:hover{border-color:var(--bdr2)}
@@ -193,9 +171,9 @@ select{cursor:pointer}
 .roster-members{display:none;padding:0 16px 14px}
 .ritem.open .roster-members{display:block}
 .member-list{background:var(--bg);border:1px solid var(--bdr);border-radius:var(--r);padding:10px 14px;max-height:200px;overflow-y:auto}
-.member-list-item{padding:4px 0;font-size:15px;color:var(--tx2);border-bottom:1px solid var(--bdr);line-height:1.5}
+.member-list-item{padding:4px 0;font-size:15px;color:var(--tx2);border-bottom:1px solid var(--bdr);line-height:1.5;display:flex;gap:8px;align-items:baseline}
 .member-list-item:last-child{border-bottom:none}
-
+.member-alias-tag{font-size:12px;color:var(--muted);font-weight:400}
 /* Archive */
 .arc-card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);margin-bottom:10px;box-shadow:var(--sh);overflow:hidden}
 .arc-card.ex{border-color:var(--p)}
@@ -212,12 +190,9 @@ select{cursor:pointer}
 .arc-chev{font-size:11px;color:var(--muted);flex-shrink:0;transition:transform .2s}
 .arc-card.ex .arc-chev{transform:rotate(180deg)}
 .arc-detail{padding:4px 16px 16px;border-top:1px solid var(--bdr)}
-.arc-del{flex-shrink:0}
-
 /* Copy options */
 .copy-opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--bdr)}
 .copy-opts-label{width:100%;font-size:13px;font-weight:700;color:var(--tx3);margin-bottom:2px}
-
 /* Risk */
 .risk-box{border-radius:var(--rl);padding:14px 16px;margin-bottom:12px}
 .risk-box.danger{background:var(--r-bg);border:1px solid var(--r-bdr)}
@@ -229,7 +204,6 @@ select{cursor:pointer}
 .rchip{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:999px;font-size:14px;font-weight:600}
 .rchip.d{background:var(--r-bdr);color:var(--red)}
 .rchip.w{background:var(--a-bdr);color:#78350F}
-
 /* Matrix */
 .matrix-outer{overflow-x:auto;margin-top:8px}
 .mtx{border-collapse:collapse;font-size:14px;white-space:nowrap}
@@ -245,28 +219,24 @@ select{cursor:pointer}
 .mc-a{background:#fff;color:var(--muted)}
 .mc-u{background:var(--a-bg);color:var(--amber)}
 .mtx-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:13px;color:var(--tx3)}
-
 /* Misc */
 .div{height:1px;background:var(--bdr);margin:20px 0}
-.sub-hd{font-size:16px;font-weight:700;color:var(--tx);margin-bottom:14px;margin-top:28px;display:flex;align-items:center;gap:8px}
+.sub-hd{font-size:16px;font-weight:700;color:var(--tx);margin-bottom:14px;margin-top:28px;display:flex;align-items:center;justify-content:space-between;gap:8px}
 .sub-hd:first-child{margin-top:0}
 .empty{text-align:center;padding:48px 24px;color:var(--muted)}
 .empty-icon{font-size:36px;margin-bottom:10px}
 .empty-text{font-size:16px;font-weight:600}
 .empty-sub{font-size:13px;margin-top:4px}
-
-/* Modal (roster) */
+/* Modal */
 .mover{display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:200;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto}
 .mover.open{display:flex}
-.modal{background:var(--surf);border-radius:var(--rl);padding:28px;width:100%;max-width:520px;box-shadow:0 20px 40px rgba(0,0,0,.18);position:relative}
+.modal{background:var(--surf);border-radius:var(--rl);padding:28px;width:100%;max-width:560px;box-shadow:0 20px 40px rgba(0,0,0,.18);position:relative}
 .modal-title{font-size:18px;font-weight:700;margin-bottom:20px}
 .modal-x{position:absolute;top:16px;right:16px;border:none;background:transparent;font-size:20px;cursor:pointer;color:var(--muted);padding:4px;border-radius:4px;line-height:1}
 .modal-x:hover{color:var(--tx);background:var(--bg)}
-
 /* Toast */
 .toast{position:fixed;bottom:24px;right:24px;background:var(--tx);color:#fff;padding:11px 18px;border-radius:var(--r);font-size:14px;font-weight:600;box-shadow:var(--shm);opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s;z-index:999;pointer-events:none}
 .toast.show{opacity:1;transform:translateY(0)}
-
 @media(max-width:620px){
   .hdr-in{padding:0 12px;gap:8px}
   .logo span{display:none}
@@ -282,13 +252,9 @@ select{cursor:pointer}
 </style>
 </head>
 <body>
-
 <header class="hdr">
   <div class="hdr-in">
-    <div class="logo">
-      <div class="logo-mk">✓</div>
-      <span>MU 出欠管理</span>
-    </div>
+    <div class="logo"><div class="logo-mk">✓</div><span>MU 出欠管理</span></div>
     <nav class="tabs">
       <button class="tab on"  data-tab="check"   onclick="sw('check',this)">出欠確認</button>
       <button class="tab"     data-tab="roster"  onclick="sw('roster',this)">名簿管理</button>
@@ -299,29 +265,16 @@ select{cursor:pointer}
 </header>
 
 <main class="main">
-
-  <!-- ═══ 出欠確認 ═══ -->
+  <!-- 出欠確認 -->
   <div id="panel-check" class="panel on">
     <div id="chk-form">
-      <div class="pg-hd">
-        <div class="pg-title">出欠確認</div>
-        <div class="pg-desc">Zoom 参加者パネルのテキストを貼り付けて出欠を自動判定します</div>
-      </div>
+      <div class="pg-hd"><div class="pg-title">出欠確認</div><div class="pg-desc">Zoom 参加者パネルのテキストを貼り付けて出欠を自動判定します</div></div>
       <div class="card">
-        <div class="fr">
-          <label>名簿を選択</label>
-          <select id="sel-roster"></select>
-        </div>
-        <div class="fr">
-          <label>開催回・日付</label>
-          <input type="text" id="inp-label" placeholder="例：第3回ミートアップ（5/22）">
-        </div>
+        <div class="fr"><label>名簿を選択</label><select id="sel-roster"></select></div>
+        <div class="fr"><label>開催回・日付</label><input type="text" id="inp-label" placeholder="例：第3回ミートアップ（5/22）"></div>
         <div class="fr">
           <label>Zoom 参加者パネルのテキスト</label>
-          <div class="tip">
-            <span class="tip-icon">💡</span>
-            <span>定例開始から<strong>5分後</strong>に参加者パネルのテキストをコピーして貼り付けてください。<br>Windows：<strong>PowerToys Text Extractor</strong>&nbsp;/&nbsp;Mac：<strong>スクリーンショットのテキスト選択</strong>（詳細は右上の ? から）</span>
-          </div>
+          <div class="tip"><span class="tip-icon">💡</span><span>定例開始から<strong>5分後</strong>に参加者パネルのテキストをコピーして貼り付けてください。<br>Windows：<strong>PowerToys Text Extractor</strong>&nbsp;/&nbsp;Mac：<strong>スクリーンショットのテキスト選択</strong>（詳細は右上の ? から）</span></div>
           <textarea id="inp-text" placeholder="ここにテキストを貼り付け…"></textarea>
         </div>
         <button class="btn btn-p btn-full" onclick="doProcess()">✓&nbsp;&nbsp;出欠を確認する</button>
@@ -332,10 +285,7 @@ select{cursor:pointer}
       <button class="back-btn" onclick="backToForm()">← 入力画面に戻る</button>
       <div class="card">
         <div class="res-hd">
-          <div>
-            <div class="res-label" id="r-label"></div>
-            <div class="res-meta"  id="r-meta"></div>
-          </div>
+          <div><div class="res-label" id="r-label"></div><div class="res-meta" id="r-meta"></div></div>
           <div class="btnrow">
             <button id="btn-save" class="btn btn-p btn-sm" onclick="saveArc()">アーカイブに保存</button>
           </div>
@@ -353,48 +303,56 @@ select{cursor:pointer}
         <div class="tbl-wr">
           <table class="tbl">
             <thead><tr>
-              <th style="width:34%">名前</th>
-              <th style="width:20%">ステータス</th>
+              <th style="width:30%">名前</th>
+              <th style="width:18%">ステータス</th>
               <th>備考</th>
-              <th style="width:18%">手動変更</th>
+              <th style="width:22%">ステータス変更</th>
             </tr></thead>
             <tbody id="tbl-body"></tbody>
           </table>
         </div>
         <div id="unm-sec" class="unm" style="display:none">
-          <div class="unm-title">⚠️ 未照合</div>
+          <div class="unm-title">⚠️ 未照合（Zoom にいるが名簿外の可能性）</div>
           <div class="chips" id="unm-chips"></div>
+        </div>
+        <!-- 単回マトリックス -->
+        <div class="cur-mtx-sec">
+          <div class="cur-mtx-title">📊 この回の出欠をスプレッドシートにコピー</div>
+          <div class="matrix-outer"><div id="cur-mtx-tbl"></div></div>
+          <div class="copy-opts">
+            <div class="copy-opts-label">貼り付け形式を選択</div>
+            <button class="btn btn-p btn-sm" onclick="copyCurMtx(true)">ヘッダー付きでコピー</button>
+            <button class="btn btn-s btn-sm" onclick="copyCurMtx(false)">値のみ（TRUE/FALSE）</button>
+          </div>
+          <p style="font-size:13px;color:var(--tx3);margin-top:8px">Googleスプレッドシートに貼り付けると、TRUE/FALSE をチェックボックスの値として直接使えます。</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ═══ 名簿管理 ═══ -->
+  <!-- 名簿管理 -->
   <div id="panel-roster" class="panel">
-    <div class="pg-hd">
-      <div class="pg-title">名簿管理</div>
-      <div class="pg-desc">サークルメンバーの名簿を作成・編集・削除できます</div>
-    </div>
+    <div class="pg-hd"><div class="pg-title">名簿管理</div><div class="pg-desc">サークルメンバーの名簿を作成・編集・削除できます</div></div>
     <div class="btnrow" style="margin-bottom:18px">
       <button class="btn btn-p" onclick="openMod()">＋ 新しい名簿を作成</button>
     </div>
     <div id="roster-list"></div>
   </div>
 
-  <!-- ═══ アーカイブ ═══ -->
+  <!-- アーカイブ -->
   <div id="panel-archive" class="panel">
-    <div class="pg-hd">
-      <div class="pg-title">アーカイブ</div>
-      <div class="pg-desc">保存済みの出欠記録・累積欠席カウント・集計マトリックスを確認できます</div>
-    </div>
+    <div class="pg-hd"><div class="pg-title">アーカイブ</div><div class="pg-desc">保存済みの出欠記録・累積欠席カウント・集計マトリックスを確認できます</div></div>
     <div id="warn-sec"></div>
-    <div class="sub-hd" style="margin-top:0">📂 保存済みセッション</div>
+    <div class="sub-hd" style="margin-top:0">
+      <span>📂 保存済みセッション</span>
+      <button class="btn btn-d btn-sm" onclick="clearAllArc()">全て削除</button>
+    </div>
     <div id="arc-list"></div>
     <div id="mtx-sec"></div>
   </div>
 </main>
 
-<!-- ═══ 名簿モーダル ═══ -->
+<!-- 名簿モーダル -->
 <div class="mover" id="modal-ov" onclick="onOvClick(event)">
   <div class="modal">
     <button class="modal-x" onclick="closeMod()">✕</button>
@@ -409,8 +367,16 @@ select{cursor:pointer}
         <span class="tip-icon">💡</span>
         <span>スペース（半角・全角）や改行で区切ると別の人として登録されます。スプレッドシートから列ごとコピペも可能です。</span>
       </div>
-      <textarea id="m-members" style="min-height:200px" placeholder="田中太郎 鈴木花子 佐藤次郎&#10;または&#10;田中太郎&#10;鈴木花子&#10;佐藤次郎"></textarea>
+      <textarea id="m-members" style="min-height:160px" placeholder="田中太郎 鈴木花子 佐藤次郎&#10;または&#10;田中太郎&#10;鈴木花子&#10;佐藤次郎"></textarea>
       <div class="hint" id="m-cnt">0名</div>
+    </div>
+    <div class="fr">
+      <label>別名設定（任意）</label>
+      <div class="tip" style="margin-bottom:10px">
+        <span class="tip-icon">💡</span>
+        <span>Zoomの表示名が異なる場合に登録します。<br>形式：<strong>本名=別名</strong>（1行に1つ）<br>例：<code>田中太郎=TanakaT</code>　　<code>田中太郎=田中先生</code></span>
+      </div>
+      <textarea id="m-aliases" style="min-height:100px" placeholder="田中太郎=TanakaT&#10;鈴木花子=Hanako Suzuki&#10;佐藤次郎=sato"></textarea>
     </div>
     <div class="btnrow">
       <button class="btn btn-p" onclick="saveRoster()">保存する</button>
@@ -419,7 +385,7 @@ select{cursor:pointer}
   </div>
 </div>
 
-<!-- ═══ ヘルプモーダル ═══ -->
+<!-- ヘルプモーダル -->
 <div class="help-ov" id="help-ov" onclick="onHelpOvClick(event)">
   <div class="help-modal" id="help-modal">
     <div class="help-hd">
@@ -428,15 +394,13 @@ select{cursor:pointer}
       <button class="help-close" onclick="closeHelp()">✕</button>
     </div>
     <div class="help-body">
-
-      <!-- 基本の流れ -->
       <div class="help-section">
-        <div class="help-section-title">🚀 基本の使い方（3ステップ）</div>
+        <div class="help-section-title">🚀 基本の使い方（4ステップ）</div>
         <div class="help-step">
           <div class="step-num">1</div>
           <div class="step-body">
             <div class="step-title">名簿管理でメンバーを登録する</div>
-            <div class="step-desc">「名簿管理」タブを開き、<strong>新しい名簿を作成</strong>からメンバーの名前を入力します。スペースや改行で区切ると別の人として登録されます。スプレッドシートからのコピペもOK。</div>
+            <div class="step-desc">「名簿管理」タブを開き、<strong>新しい名簿を作成</strong>からメンバーの名前を入力します。スペースや改行で区切ると別の人として登録されます。スプレッドシートからのコピペもOK。<br>Zoomの表示名が本名と異なる場合は <strong>別名設定</strong> に「本名=Zoom表示名」の形式で登録すると自動で照合されます。</div>
           </div>
         </div>
         <div class="help-step">
@@ -450,14 +414,22 @@ select{cursor:pointer}
           <div class="step-num">3</div>
           <div class="step-body">
             <div class="step-title">「出欠確認」タブにテキストを貼り付けて実行</div>
-            <div class="step-desc">名簿を選択し、コピーしたテキストを貼り付けて「出欠を確認する」を押します。結果を確認後、「アーカイブに保存」で記録を蓄積できます。</div>
+            <div class="step-desc">名簿を選択し、コピーしたテキストを貼り付けて「出欠を確認する」を押します。結果を確認・修正後、「アーカイブに保存」で記録を蓄積できます。<br>出席・欠席・特定困難のどのステータスも、結果画面の「ステータス変更」列から手動で変更できます。</div>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">この回の出欠をスプレッドシートの行にそのまま貼り付ける</div>
+            <div class="step-desc">結果画面の下部に「📊 この回の出欠をスプレッドシートにコピー」セクションがあります。<br>
+            <strong>「ヘッダー付きでコピー」</strong>…1行目にメンバー名、2行目にTRUE/FALSE が入った形式でコピーされます。<br>
+            <strong>「値のみ（TRUE/FALSE）」</strong>…すでにスプレッドシートに枠組みがある場合、1行分のTRUE/FALSEだけをコピーして、該当する行にそのまま貼り付けできます。</div>
           </div>
         </div>
       </div>
 
       <div class="divider-sm"></div>
 
-      <!-- ステータスの説明 -->
       <div class="help-section">
         <div class="help-section-title">📋 出欠ステータスについて</div>
         <div class="status-row">
@@ -465,141 +437,46 @@ select{cursor:pointer}
           <div class="st-item"><span class="badge ba">欠席</span>テキストに名前がない</div>
           <div class="st-item"><span class="badge bu">特定困難</span>部分一致または同姓同名</div>
         </div>
-        <div class="step-desc" style="margin-top:10px">「特定困難」になった行には <strong>→ 出席 / → 欠席</strong> ボタンが表示されます。状況を確認して手動で分類できます。</div>
+        <div class="step-desc" style="margin-top:10px">どのステータスの行でも「ステータス変更」列からボタンで変更できます。手動で変更した行は「元に戻す」で自動判定の結果に戻せます。保存済みのアーカイブの中身も同様に編集可能です。</div>
       </div>
 
       <div class="divider-sm"></div>
 
-      <!-- Windows -->
       <div class="help-section">
         <div class="help-section-title">🖥️ Windows でのテキスト取得（PowerToys）</div>
-        <div class="help-step">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <div class="step-title">PowerToys をインストール</div>
-            <div class="step-desc">Microsoft Store または <strong>github.com/microsoft/PowerToys</strong> からインストールします（無料）。</div>
-          </div>
-        </div>
-        <div class="help-step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <div class="step-title">Text Extractor を起動</div>
-            <div class="step-desc">デフォルトのショートカット <code>Win + Shift + T</code> を押すと画面が暗くなります。</div>
-          </div>
-        </div>
-        <div class="help-step">
-          <div class="step-num">3</div>
-          <div class="step-body">
-            <div class="step-title">参加者パネルを範囲選択</div>
-            <div class="step-desc">Zoom の参加者一覧が表示されている部分をドラッグで囲むと、テキストが自動でクリップボードにコピーされます。</div>
-          </div>
-        </div>
+        <div class="help-step"><div class="step-num">1</div><div class="step-body"><div class="step-title">PowerToys をインストール</div><div class="step-desc">Microsoft Store または <strong>github.com/microsoft/PowerToys</strong> からインストールします（無料）。</div></div></div>
+        <div class="help-step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Text Extractor を起動</div><div class="step-desc">デフォルトのショートカット <code>Win + Shift + T</code> を押すと画面が暗くなります。</div></div></div>
+        <div class="help-step"><div class="step-num">3</div><div class="step-body"><div class="step-title">参加者パネルを範囲選択</div><div class="step-desc">Zoom の参加者一覧が表示されている部分をドラッグで囲むと、テキストが自動でクリップボードにコピーされます。</div></div></div>
       </div>
 
       <div class="divider-sm"></div>
 
-      <!-- Mac 方法1 -->
       <div class="help-section">
         <div class="help-section-title">🍎 Mac でのテキスト取得　方法①：スクリーンショット標準機能</div>
-        <div class="kbd-block">
-          <div class="kbd-row">
-            <span>スクリーンショットを起動：</span>
-            <span class="kbd">⌘ Command</span><span class="kbd-arrow">+</span>
-            <span class="kbd">⇧ Shift</span><span class="kbd-arrow">+</span>
-            <span class="kbd">4</span>
-          </div>
-        </div>
+        <div class="kbd-block"><div class="kbd-row"><span>スクリーンショットを起動：</span><span class="kbd">⌘ Command</span><span class="kbd-arrow">+</span><span class="kbd">⇧ Shift</span><span class="kbd-arrow">+</span><span class="kbd">4</span></div></div>
         <div class="step-desc" style="margin-top:10px">範囲選択カーソルが出たら、参加者パネルの文字が写っている部分をドラッグします。撮影された画像にカーソルを合わせると <strong>テキスト選択ボタン</strong> が出るので、全テキストを選択してコピーします。</div>
       </div>
 
       <div class="divider-sm"></div>
 
-      <!-- Mac 方法2 -->
       <div class="help-section">
         <div class="help-section-title">🍎 Mac でのテキスト取得　方法②：ショートカットアプリで自動化（おすすめ）</div>
-        <div class="help-tip">
-          <b>💡 一度設定すると、範囲を囲むだけで即テキストがコピーされる最速の方法です。</b><br>
-          Windows の PowerToys に近い感覚で使えます。
-        </div>
-        <div class="help-step" style="margin-top:14px">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <div class="step-title">「ショートカット」アプリを起動する</div>
-            <div class="step-desc">Mac 標準アプリ（ひし形が重なったアイコン）を開き、画面上部の <strong>＋（新規作成）</strong> をクリックします。</div>
-          </div>
-        </div>
-        <div class="help-step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <div class="step-title">3つのアクションを順番に追加する</div>
-            <div class="step-desc">右上の検索窓から以下を探し、左側のエリアにこの順番で並べます。</div>
-            <div class="help-sub-list">
-              <div class="help-sub-item">「スクリーンショットを撮る」</div>
-              <div class="help-sub-item">「画像からテキストを抽出」</div>
-              <div class="help-sub-item">「クリップボードにコピー」</div>
-            </div>
-          </div>
-        </div>
-        <div class="help-step">
-          <div class="step-num">3</div>
-          <div class="step-body">
-            <div class="step-title">スクリーンショットの設定を「範囲指定」に変える ← ここが重要！</div>
-            <div class="step-desc">1番目の「スクリーンショットを撮る」の横の矢印を開き、設定を変更します。</div>
-            <div class="kbd-block" style="margin-top:8px">
-              <div class="kbd-row"><span class="kbd">フルスクリーン</span><span class="kbd-arrow">→</span><span class="kbd">インタラクティブ</span></div>
-              <div class="kbd-row" style="margin-top:6px"><span class="kbd">選択部分</span><span class="kbd-arrow">→</span><span class="kbd">カスタム</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="help-step">
-          <div class="step-num">4</div>
-          <div class="step-body">
-            <div class="step-title">好きなキーボードショートカットを割り当てる</div>
-            <div class="step-desc">画面右側の <strong>i（詳細）</strong> アイコンをクリックし、「キーボードショートカットを追加」を選択。<br>例えば Windows に近い感覚にするために以下がおすすめです。</div>
-            <div class="kbd-block" style="margin-top:8px">
-              <div class="kbd-row">
-                <span class="kbd">⇧ Shift</span><span class="kbd-arrow">+</span>
-                <span class="kbd">⌘ Command</span><span class="kbd-arrow">+</span>
-                <span class="kbd">X</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="help-tip" style="margin-top:12px">
-          <b>使い方：</b>設定したショートカット（例：Shift+Command+X）を押すと画面が暗くなり、範囲選択カーソルが出ます。文字がある部分をビッと囲むだけで、裏で自動的に文字がコピーされます。あとは貼り付けたい場所で <b>Command + V</b> するだけ！
-        </div>
+        <div class="help-tip"><b>💡 一度設定すると、範囲を囲むだけで即テキストがコピーされる最速の方法です。</b><br>Windows の PowerToys に近い感覚で使えます。</div>
+        <div class="help-step" style="margin-top:14px"><div class="step-num">1</div><div class="step-body"><div class="step-title">「ショートカット」アプリを起動する</div><div class="step-desc">Mac 標準アプリ（ひし形が重なったアイコン）を開き、画面上部の <strong>＋（新規作成）</strong> をクリックします。</div></div></div>
+        <div class="help-step"><div class="step-num">2</div><div class="step-body"><div class="step-title">3つのアクションを順番に追加する</div><div class="step-desc">右上の検索窓から以下を探し、左側のエリアにこの順番で並べます。</div><div class="help-sub-list"><div class="help-sub-item">「スクリーンショットを撮る」</div><div class="help-sub-item">「画像からテキストを抽出」</div><div class="help-sub-item">「クリップボードにコピー」</div></div></div></div>
+        <div class="help-step"><div class="step-num">3</div><div class="step-body"><div class="step-title">スクリーンショットの設定を「範囲指定」に変える ← ここが重要！</div><div class="step-desc">1番目の「スクリーンショットを撮る」の横の矢印を開き、設定を変更します。</div><div class="kbd-block" style="margin-top:8px"><div class="kbd-row"><span class="kbd">フルスクリーン</span><span class="kbd-arrow">→</span><span class="kbd">インタラクティブ</span></div><div class="kbd-row" style="margin-top:6px"><span class="kbd">選択部分</span><span class="kbd-arrow">→</span><span class="kbd">カスタム</span></div></div></div></div>
+        <div class="help-step"><div class="step-num">4</div><div class="step-body"><div class="step-title">好きなキーボードショートカットを割り当てる</div><div class="step-desc">画面右側の <strong>i（詳細）</strong> アイコンをクリックし、「キーボードショートカットを追加」を選択。</div><div class="kbd-block" style="margin-top:8px"><div class="kbd-row"><span class="kbd">⇧ Shift</span><span class="kbd-arrow">+</span><span class="kbd">⌘ Command</span><span class="kbd-arrow">+</span><span class="kbd">X</span></div></div></div></div>
+        <div class="help-tip" style="margin-top:12px"><b>使い方：</b>設定したショートカット（例：Shift+Command+X）を押すと画面が暗くなり、範囲選択カーソルが出ます。文字がある部分をビッと囲むだけで、裏で自動的に文字がコピーされます。あとは貼り付けたい場所で <b>Command + V</b> するだけ！</div>
       </div>
 
       <div class="divider-sm"></div>
 
-      <!-- アーカイブ説明 -->
       <div class="help-section">
         <div class="help-section-title">📂 アーカイブ・スプレッドシート連携</div>
-        <div class="help-step">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <div class="step-title">毎回アーカイブに保存する</div>
-            <div class="step-desc">出欠確認後に「アーカイブに保存」を押すと、参加回・日付ラベルとともに記録が蓄積されます。</div>
-          </div>
-        </div>
-        <div class="help-step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <div class="step-title">集計マトリックスをスプレッドシートにコピー</div>
-            <div class="step-desc">アーカイブタブ下部の集計マトリックスに 2種類のコピーボタン があります。<br>
-            <strong>「ヘッダー付き」</strong>…回名・メンバー名を含む形式<br>
-            <strong>「値のみ（TRUE/FALSE）」</strong>…チェックボックスの値のみ</div>
-          </div>
-        </div>
-        <div class="help-step">
-          <div class="step-num">3</div>
-          <div class="step-body">
-            <div class="step-title">欠席リスクの自動警告</div>
-            <div class="step-desc">欠席が <strong>3回以上</strong> で⚠️警告、<strong>5回以上</strong> で⛔危険表示がアーカイブタブ上部に自動で出ます。</div>
-          </div>
-        </div>
+        <div class="help-step"><div class="step-num">1</div><div class="step-body"><div class="step-title">毎回アーカイブに保存する</div><div class="step-desc">出欠確認後に「アーカイブに保存」を押すと、参加回・日付ラベルとともに記録が蓄積されます。保存後は入力画面に戻ります。保存後もアーカイブタブから内容を編集できます。</div></div></div>
+        <div class="help-step"><div class="step-num">2</div><div class="step-body"><div class="step-title">累積の集計マトリックスをコピー</div><div class="step-desc">アーカイブタブ下部の集計マトリックスに2種類のコピーボタンがあります。<strong>「ヘッダー付き」</strong>…回名・メンバー名を含む全体形式。<strong>「値のみ」</strong>…チェックボックスの値のみ。</div></div></div>
+        <div class="help-step"><div class="step-num">3</div><div class="step-body"><div class="step-title">欠席リスクの自動警告</div><div class="step-desc">欠席が <strong>3回以上</strong> で⚠️警告、<strong>5回以上</strong> で⛔危険表示がアーカイブタブ上部に自動で出ます。</div></div></div>
       </div>
-
     </div>
   </div>
 </div>
@@ -613,22 +490,17 @@ var rosters={},archive=[],cur=null,curFlt='all',editId=null,expId=null;
   try{archive=JSON.parse(localStorage.getItem('mu_archive')||'[]')}catch(e){}
   updSel();renderRosters();renderArc();
 })();
-
-function persist(){
-  localStorage.setItem('mu_rosters',JSON.stringify(rosters));
-  localStorage.setItem('mu_archive',JSON.stringify(archive));
-}
+function persist(){localStorage.setItem('mu_rosters',JSON.stringify(rosters));localStorage.setItem('mu_archive',JSON.stringify(archive))}
 
 /* ── Tabs ── */
 function sw(id,btn){
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on')});
   document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on')});
-  document.getElementById('panel-'+id).classList.add('on');
-  btn.classList.add('on');
+  document.getElementById('panel-'+id).classList.add('on');btn.classList.add('on');
   if(id==='archive')renderArc();
 }
 
-/* ── Help modal ── */
+/* ── Help ── */
 function openHelp(){document.getElementById('help-ov').classList.add('open')}
 function closeHelp(){document.getElementById('help-ov').classList.remove('open')}
 function onHelpOvClick(e){if(e.target===document.getElementById('help-ov'))closeHelp()}
@@ -639,6 +511,15 @@ function openMod(id){
   document.getElementById('mod-title').textContent=id?'名簿を編集':'名簿を新規作成';
   document.getElementById('m-rname').value=id&&rosters[id]?rosters[id].name:'';
   document.getElementById('m-members').value=id&&rosters[id]?rosters[id].members.join('\n'):'';
+  /* Build alias text: "name=alias" per line */
+  var aliasText='';
+  if(id&&rosters[id]&&rosters[id].aliases){
+    var als=rosters[id].aliases;
+    Object.keys(als).forEach(function(nm){
+      als[nm].forEach(function(a){aliasText+=nm+'='+a+'\n'});
+    });
+  }
+  document.getElementById('m-aliases').value=aliasText.trim();
   updCnt();
   document.getElementById('modal-ov').classList.add('open');
   setTimeout(function(){document.getElementById('m-rname').focus()},60);
@@ -646,6 +527,19 @@ function openMod(id){
 function closeMod(){document.getElementById('modal-ov').classList.remove('open')}
 function onOvClick(e){if(e.target===document.getElementById('modal-ov'))closeMod()}
 function parseMembers(raw){return raw.split(/[\s\u3000]+/).map(function(s){return s.trim()}).filter(Boolean)}
+function parseAliases(raw){
+  var result={};
+  raw.split('\n').forEach(function(line){
+    line=line.trim();if(!line)return;
+    var idx=line.indexOf('=');if(idx<1)return;
+    var nm=line.substring(0,idx).trim();
+    var al=line.substring(idx+1).trim();
+    if(!nm||!al)return;
+    if(!result[nm])result[nm]=[];
+    result[nm].push(al);
+  });
+  return result;
+}
 function updCnt(){var n=parseMembers(document.getElementById('m-members').value).length;document.getElementById('m-cnt').textContent=n+'名'}
 document.getElementById('m-members').addEventListener('input',updCnt);
 
@@ -656,8 +550,9 @@ function saveRoster(){
   if(!nm){toast('名簿名を入力してください');return}
   var mb=parseMembers(raw);
   if(!mb.length){toast('メンバーを1名以上入力してください');return}
+  var als=parseAliases(document.getElementById('m-aliases').value);
   var id=editId||('r'+Date.now());
-  rosters[id]={name:nm,members:mb};
+  rosters[id]={name:nm,members:mb,aliases:als};
   persist();renderRosters();updSel();closeMod();
   toast(editId?'名簿を更新しました':'名簿を作成しました');
 }
@@ -665,44 +560,32 @@ function delRoster(id){
   if(!confirm('「'+rosters[id].name+'」を削除しますか？'))return;
   delete rosters[id];persist();renderRosters();updSel();toast('名簿を削除しました');
 }
-function togRoster(id){
-  var el=document.getElementById('ritem-'+id);
-  if(el)el.classList.toggle('open');
-}
+function togRoster(id){var el=document.getElementById('ritem-'+id);if(el)el.classList.toggle('open')}
 function renderRosters(){
   var el=document.getElementById('roster-list');
   var ids=Object.keys(rosters);
   if(!ids.length){el.innerHTML=emptyH('📝','名簿が登録されていません','「新しい名簿を作成」から追加してください');return}
   el.innerHTML=ids.map(function(id){
-    var members=rosters[id].members;
-    var listItems=members.map(function(m){return'<div class="member-list-item">'+esc(m)+'</div>'}).join('');
+    var r=rosters[id];var als=r.aliases||{};
+    var listItems=r.members.map(function(m){
+      var aliasArr=als[m]||[];
+      var aliasTxt=aliasArr.length?'<span class="member-alias-tag">（別名：'+esc(aliasArr.join('、'))+'）</span>':'';
+      return'<div class="member-list-item">'+esc(m)+aliasTxt+'</div>';
+    }).join('');
     return'<div class="ritem" id="ritem-'+id+'">'
-      +'<div class="ritem-hd">'
-        +'<div class="rinfo">'
-          +'<div class="rname">'+esc(rosters[id].name)+'</div>'
-          +'<div class="rmeta">'+members.length+'名登録</div>'
-        +'</div>'
-        +'<div class="ract">'
-          +'<button class="roster-toggle" onclick="togRoster(\''+id+'\')">'
-            +'メンバー一覧 <span class="chev">▼</span>'
-          +'</button>'
-          +'<button class="btn btn-g btn-sm" onclick="openMod(\''+id+'\')">編集</button>'
-          +'<button class="btn btn-d btn-sm" onclick="delRoster(\''+id+'\')">削除</button>'
-        +'</div>'
-      +'</div>'
-      +'<div class="roster-members">'
-        +'<div class="member-list">'+listItems+'</div>'
-      +'</div>'
-    +'</div>';
+      +'<div class="ritem-hd"><div class="rinfo"><div class="rname">'+esc(r.name)+'</div><div class="rmeta">'+r.members.length+'名登録</div></div>'
+      +'<div class="ract"><button class="roster-toggle" onclick="togRoster(\''+id+'\')">メンバー一覧 <span class="chev">▼</span></button>'
+      +'<button class="btn btn-g btn-sm" onclick="openMod(\''+id+'\')">編集</button>'
+      +'<button class="btn btn-d btn-sm" onclick="delRoster(\''+id+'\')">削除</button></div></div>'
+      +'<div class="roster-members"><div class="member-list">'+listItems+'</div></div></div>';
   }).join('');
 }
 function updSel(){
   var s=document.getElementById('sel-roster');var v=s.value;
   s.innerHTML='<option value="">── 名簿を選択してください ──</option>';
   Object.keys(rosters).forEach(function(id){
-    var o=document.createElement('option');
-    o.value=id;o.textContent=rosters[id].name+'（'+rosters[id].members.length+'名）';
-    s.appendChild(o);
+    var o=document.createElement('option');o.value=id;
+    o.textContent=rosters[id].name+'（'+rosters[id].members.length+'名）';s.appendChild(o);
   });
   if(v&&rosters[v])s.value=v;
 }
@@ -719,7 +602,7 @@ function doProcess(){
   var raw=document.getElementById('inp-text').value;
   if(!raw.trim()){toast('テキストを貼り付けてください');return}
   var lbl=document.getElementById('inp-label').value.trim()||('確認 '+new Date().toLocaleDateString('ja-JP'));
-  var roster=rosters[rid];var mbs=roster.members;
+  var roster=rosters[rid];var mbs=roster.members;var rosterAliases=roster.aliases||{};
   var norm=rmsp(prep(raw));var len=norm.length;
   var normM=mbs.map(function(m){return rmsp(m)});
   var seen={};var uniq=[];normM.forEach(function(n){if(!seen[n]){seen[n]=1;uniq.push(n)}});
@@ -741,12 +624,28 @@ function doProcess(){
     var tc=tmc[nm]||0;
     var di=mbs.reduce(function(a,m,i){if(rmsp(m)===nm)a.push(i);return a},[]);
     if(rc===1){
-      if(tc>=1)results.push({name:mb,status:'present',note:'',manualOverride:false});
-      else{var pt=findPart(nm,norm,used);if(pt)results.push({name:mb,status:'unknown',note:'部分一致：「'+pt+'」',manualOverride:false});else results.push({name:mb,status:'absent',note:'',manualOverride:false})}
+      if(tc>=1)results.push({name:mb,status:'present',autoStatus:'present',note:'',manualOverride:false});
+      else{
+        var pt=findPart(nm,norm,used);
+        if(pt)results.push({name:mb,status:'unknown',autoStatus:'unknown',note:'部分一致：「'+pt+'」',manualOverride:false});
+        else results.push({name:mb,status:'absent',autoStatus:'absent',note:'',manualOverride:false});
+      }
     }else{
-      if(tc>=rc)di.forEach(function(i,j){results.push({name:mbs[i],status:'present',note:'同姓同名（'+(j+1)+'人目）',manualOverride:false})});
-      else if(tc===0)di.forEach(function(i,j){results.push({name:mbs[i],status:'absent',note:'同姓同名（'+(j+1)+'人目）',manualOverride:false})});
-      else di.forEach(function(i,j){results.push({name:mbs[i],status:'unknown',note:'同姓同名・特定困難（'+(j+1)+'人目）',manualOverride:false})});
+      if(tc>=rc)di.forEach(function(i,j){results.push({name:mbs[i],status:'present',autoStatus:'present',note:'同姓同名（'+(j+1)+'人目）',manualOverride:false})});
+      else if(tc===0)di.forEach(function(i,j){results.push({name:mbs[i],status:'absent',autoStatus:'absent',note:'同姓同名（'+(j+1)+'人目）',manualOverride:false})});
+      else di.forEach(function(i,j){results.push({name:mbs[i],status:'unknown',autoStatus:'unknown',note:'同姓同名・特定困難（'+(j+1)+'人目）',manualOverride:false})});
+    }
+  });
+  /* Alias check: for absent members, check if any alias matches */
+  results.forEach(function(r){
+    if(r.status!=='absent')return;
+    var als=rosterAliases[r.name]||[];
+    for(var ai=0;ai<als.length;ai++){
+      var anorm=rmsp(als[ai]);
+      if(anorm&&norm.indexOf(anorm)!==-1){
+        r.status='present';r.autoStatus='present';
+        r.note='別名一致：「'+als[ai]+'」';break;
+      }
     }
   });
   var unmatched=extractUnm(norm,used);
@@ -780,20 +679,17 @@ function extractUnm(norm,used){
   return dedup.slice(0,24);
 }
 
-/* ── Manual classify ── */
+/* ── Classify (current session) ── */
 function classify(idx,toStatus){
   if(!cur||!cur.results[idx])return;
   var r=cur.results[idx];
   r.status=toStatus;r.manualOverride=true;
-  r.note=r.note+(r.note?'　':'')+'（手動：'+(toStatus==='present'?'出席':'欠席')+'）';
   renderResult();
 }
 function revert(idx){
   if(!cur||!cur.results[idx])return;
   var r=cur.results[idx];
-  r.status='unknown';
-  r.note=r.note.replace(/\u3000?\uff08手動[\uff1a：][^\uff09）]+[\uff09）]/g,'').replace(/\s+$/,'');
-  r.manualOverride=false;
+  r.status=r.autoStatus;r.manualOverride=false;
   renderResult();
 }
 function backToForm(){document.getElementById('chk-result').style.display='none';document.getElementById('chk-form').style.display='block'}
@@ -818,7 +714,18 @@ function renderResult(){
   if(cur.unmatched.length){unmS.style.display='block';document.getElementById('unm-chips').innerHTML=cur.unmatched.map(function(u){return'<span class="chip">'+esc(u)+'</span>'}).join('')}
   else unmS.style.display='none';
   renderTbl();
+  renderCurMtx();
 }
+
+function clsBtns(i,r){
+  var html='';
+  if(r.status==='present'){html+='<button class="cls-btn cls-a" onclick="classify('+i+',\'absent\')">→ 欠席</button>'}
+  if(r.status==='absent'){html+='<button class="cls-btn cls-p" onclick="classify('+i+',\'present\')">→ 出席</button>'}
+  if(r.status==='unknown'){html+='<button class="cls-btn cls-p" onclick="classify('+i+',\'present\')">→ 出席</button><button class="cls-btn cls-a" onclick="classify('+i+',\'absent\')">→ 欠席</button>'}
+  if(r.manualOverride){html+='<button class="cls-btn cls-r" onclick="revert('+i+')">元に戻す</button>'}
+  return html;
+}
+
 function renderTbl(){
   if(!cur)return;
   var si=document.getElementById('inp-search');
@@ -833,38 +740,96 @@ function renderTbl(){
   if(!rows.length){tb.innerHTML='<tr><td colspan="4" style="text-align:center;padding:24px;color:var(--muted)">該当するメンバーがいません</td></tr>';return}
   tb.innerHTML=rows.map(function(x){
     var r=x.r;var i=x.i;
-    var actCell='<td class="td-act">';
-    if(r.status==='unknown'){actCell+='<button class="cls-btn cls-p" onclick="classify('+i+',\'present\')">→ 出席</button><button class="cls-btn cls-a" onclick="classify('+i+',\'absent\')">→ 欠席</button>'}
-    else if(r.manualOverride){actCell+='<button class="cls-btn" style="background:var(--bg);border:1px solid var(--bdr2);color:var(--tx3)" onclick="revert('+i+')">元に戻す</button>'}
-    actCell+='</td>';
-    return'<tr><td class="td-name">'+esc(r.name)+'</td><td><span class="badge '+BC[r.status]+'">'+SL[r.status]+'</span></td><td class="td-note">'+esc(r.note)+'</td>'+actCell+'</tr>';
+    return'<tr><td class="td-name">'+esc(r.name)+'</td>'
+      +'<td><span class="badge '+BC[r.status]+'">'+SL[r.status]+'</span></td>'
+      +'<td class="td-note">'+esc(r.note)+'</td>'
+      +'<td class="td-act">'+clsBtns(i,r)+'</td></tr>';
   }).join('');
 }
 function flt(f,el){curFlt=f;document.querySelectorAll('.sc').forEach(function(c){c.classList.remove('on')});el.classList.add('on');renderTbl()}
+
+/* ── Single-session matrix ── */
+function renderCurMtx(){
+  if(!cur)return;
+  var members=cur.results;
+  var nameCnt={};
+  var hdr=members.map(function(r){
+    nameCnt[r.name]=(nameCnt[r.name]||0)+1;
+    var disp=esc(r.name)+(nameCnt[r.name]>1?'<sub style="font-size:10px">('+nameCnt[r.name]+')</sub>':'');
+    return'<th class="mth-mb">'+disp+'</th>';
+  }).join('');
+  var cells=members.map(function(r){
+    if(r.status==='present')return'<td class="mc mc-p">✓</td>';
+    if(r.status==='unknown')return'<td class="mc mc-u">?</td>';
+    return'<td class="mc mc-a"></td>';
+  }).join('');
+  document.getElementById('cur-mtx-tbl').innerHTML='<table class="mtx"><thead><tr>'+hdr+'</tr></thead><tbody><tr>'+cells+'</tr></tbody></table>';
+}
+
+function copyCurMtx(withHeaders){
+  if(!cur)return;
+  var members=cur.results;
+  var nameCnt={};
+  var hCells=members.map(function(r){
+    nameCnt[r.name]=(nameCnt[r.name]||0)+1;
+    return r.name+(nameCnt[r.name]>1?'('+nameCnt[r.name]+')':'');
+  });
+  var vCells=members.map(function(r){return r.status==='present'?'TRUE':'FALSE'});
+  var lines=[];
+  if(withHeaders)lines.push(hCells.join('\t'));
+  lines.push(vCells.join('\t'));
+  copyText(lines.join('\n'));
+  toast(withHeaders?'ヘッダー付きでコピーしました':'値（TRUE/FALSE）のみコピーしました');
+}
 
 /* ── Archive ── */
 function saveArc(){
   if(!cur||archive.some(function(s){return s.id===cur.id}))return;
   archive.unshift(JSON.parse(JSON.stringify(cur)));persist();
-  var btn=document.getElementById('btn-save');btn.textContent='✓ 保存済み';btn.disabled=true;
-  toast('アーカイブに保存しました');renderArc();
+  toast('アーカイブに保存しました');
+  renderArc();
+  /* Return to form after saving */
+  setTimeout(function(){backToForm()},400);
 }
+function findArc(id){for(var _i=0;_i<archive.length;_i++){if(archive[_i].id===id)return archive[_i]}return null}
 function delArc(id){
-  var s=archive.find(function(a){return a.id===id});
-  if(!confirm('「'+(s?s.label:id)+'」をアーカイブから削除しますか？'))return;
-  archive=archive.filter(function(a){return a.id!==id});
+  var s=findArc(id);
+  var lbl=s?s.label:id;
+  if(!window.confirm('「'+lbl+'」をアーカイブから削除しますか？'))return;
+  var next=[];for(var _i=0;_i<archive.length;_i++){if(archive[_i].id!==id)next.push(archive[_i])}
+  archive=next;
   if(expId===id)expId=null;persist();renderArc();toast('削除しました');
+}
+function clearAllArc(){
+  if(!archive.length){toast('保存済みセッションがありません');return}
+  if(!window.confirm('保存済みセッションを全て削除しますか？この操作は元に戻せません。'))return;
+  archive=[];expId=null;persist();renderArc();toast('全セッションを削除しました');
 }
 function togExp(id){expId=expId===id?null:id;renderArc()}
 
-/* ── absCount: track by occurrence (same-name support) ── */
+/* ── Classify archived session ── */
+function classifyArc(id,idx,toStatus){
+  var s=findArc(id);
+  if(!s||!s.results[idx])return;
+  var r=s.results[idx];
+  r.status=toStatus;r.manualOverride=true;
+  persist();renderArcList();
+}
+function revertArc(id,idx){
+  var s=findArc(id);
+  if(!s||!s.results[idx])return;
+  var r=s.results[idx];
+  r.status=r.autoStatus||r.status;r.manualOverride=false;
+  persist();renderArcList();
+}
+
+/* ── absCount ── */
 function absCount(){
   var c={};
   archive.forEach(function(s){
     var nameCnt={};
     s.results.forEach(function(r){
-      var n=r.name;
-      nameCnt[n]=(nameCnt[n]||0)+1;
+      var n=r.name;nameCnt[n]=(nameCnt[n]||0)+1;
       var key=n+'__'+nameCnt[n];
       if(!c[key])c[key]={present:0,absent:0,unknown:0,name:n};
       c[key][r.status]++;
@@ -873,62 +838,46 @@ function absCount(){
   return c;
 }
 
-/* ── buildMtx: preserve duplicate member names ── */
+/* ── buildMtx ── */
 function buildMtx(){
   if(!archive.length)return null;
-  /* Build member list in roster order, preserving duplicates
-     Key = name + "__" + occurrence number (1-based) */
   var keySet={};var mOrder=[];
   archive.forEach(function(s){
     var nameCnt={};
     s.results.forEach(function(r){
-      var n=r.name;
-      nameCnt[n]=(nameCnt[n]||0)+1;
+      var n=r.name;nameCnt[n]=(nameCnt[n]||0)+1;
       var key=n+'__'+nameCnt[n];
       if(!keySet[key]){keySet[key]=1;mOrder.push({name:n,key:key,occ:nameCnt[n]})}
     });
   });
   return{members:mOrder,sessions:archive.slice().reverse()};
 }
-
-/* Find the occ-th result with given name in a session */
 function findByOcc(session,name,occ){
   var cnt=0;
   for(var i=0;i<session.results.length;i++){
-    if(session.results[i].name===name){
-      cnt++;if(cnt===occ)return session.results[i];
-    }
+    if(session.results[i].name===name){cnt++;if(cnt===occ)return session.results[i]}
   }
   return null;
 }
 
-/* ── Copy matrix ── */
+/* ── Copy matrix (archive) ── */
 function copyMtx(withHeaders){
   var m=buildMtx();if(!m){toast('アーカイブが空です');return}
   var lines=[];
   if(withHeaders){
-    /* Row 1: header with member names (show name only, duplicates get (1)(2) suffix) */
     var nameCntH={};
     var hCells=m.members.map(function(mb){
       nameCntH[mb.name]=(nameCntH[mb.name]||0)+1;
       return mb.name+(mb.occ>1?'('+mb.occ+')':'');
     });
     lines.push('\t'+hCells.join('\t'));
-    /* Rows: session label + TRUE/FALSE */
     m.sessions.forEach(function(s){
-      var cells=m.members.map(function(mb){
-        var r=findByOcc(s,mb.name,mb.occ);
-        return(!r||r.status!=='present')?'FALSE':'TRUE';
-      });
+      var cells=m.members.map(function(mb){var r=findByOcc(s,mb.name,mb.occ);return(!r||r.status!=='present')?'FALSE':'TRUE'});
       lines.push(s.label+'\t'+cells.join('\t'));
     });
   }else{
-    /* Values only: no headers, no session labels */
     m.sessions.forEach(function(s){
-      var cells=m.members.map(function(mb){
-        var r=findByOcc(s,mb.name,mb.occ);
-        return(!r||r.status!=='present')?'FALSE':'TRUE';
-      });
+      var cells=m.members.map(function(mb){var r=findByOcc(s,mb.name,mb.occ);return(!r||r.status!=='present')?'FALSE':'TRUE'});
       lines.push(cells.join('\t'));
     });
   }
@@ -942,18 +891,22 @@ function renderWarn(){
   var el=document.getElementById('warn-sec');
   if(!archive.length){el.innerHTML='';return}
   var c=absCount();var danger=[];var warn=[];
-  Object.keys(c).forEach(function(key){
-    var v=c[key];var ab=v.absent+v.unknown;
-    var dispName=v.name;
-    if(ab>=5)danger.push({nm:dispName,ab:ab});
-    else if(ab>=3)warn.push({nm:dispName,ab:ab});
-  });
+  Object.keys(c).forEach(function(key){var v=c[key];var ab=v.absent+v.unknown;if(ab>=5)danger.push({nm:v.name,ab:ab});else if(ab>=3)warn.push({nm:v.name,ab:ab})});
   danger.sort(function(a,b){return b.ab-a.ab});warn.sort(function(a,b){return b.ab-a.ab});
   if(!danger.length&&!warn.length){el.innerHTML='';return}
   var html='';
   if(danger.length)html+='<div class="risk-box danger"><div class="risk-title danger">⛔ 活動停止ライン到達（5回以上欠席）</div><div class="risk-chips">'+danger.map(function(d){return'<span class="rchip d">'+esc(d.nm)+'&nbsp;<strong>'+d.ab+'回</strong></span>'}).join('')+'</div></div>';
   if(warn.length)html+='<div class="risk-box warn"><div class="risk-title warn">⚠️ 欠席が多いメンバー（3〜4回欠席）</div><div class="risk-chips">'+warn.map(function(w){return'<span class="rchip w">'+esc(w.nm)+'&nbsp;<strong>'+w.ab+'回</strong></span>'}).join('')+'</div></div>';
   el.innerHTML=html;
+}
+
+function clsBtnsArc(sid,i,r){
+  var html='';
+  if(r.status==='present')html+='<button class="cls-btn cls-a" onclick="classifyArc(\''+sid+'\','+i+',\'absent\')">→ 欠席</button>';
+  if(r.status==='absent')html+='<button class="cls-btn cls-p" onclick="classifyArc(\''+sid+'\','+i+',\'present\')">→ 出席</button>';
+  if(r.status==='unknown'){html+='<button class="cls-btn cls-p" onclick="classifyArc(\''+sid+'\','+i+',\'present\')">→ 出席</button><button class="cls-btn cls-a" onclick="classifyArc(\''+sid+'\','+i+',\'absent\')">→ 欠席</button>'}
+  if(r.manualOverride)html+='<button class="cls-btn cls-r" onclick="revertArc(\''+sid+'\','+i+')">元に戻す</button>';
+  return html;
 }
 
 function renderArcList(){
@@ -968,8 +921,14 @@ function renderArcList(){
     var t=s.results.length;
     var ds=new Date(s.date).toLocaleDateString('ja-JP',{year:'numeric',month:'short',day:'numeric'});
     var ex=expId===s.id;
-    var det=ex?('<div class="arc-detail"><table class="tbl" style="margin-top:4px"><thead><tr><th style="width:40%">名前</th><th style="width:22%">ステータス</th><th>備考</th></tr></thead><tbody>'+s.results.map(function(r){return'<tr><td class="td-name">'+esc(r.name)+'</td><td><span class="badge '+BC[r.status]+'">'+SL[r.status]+'</span></td><td class="td-note">'+esc(r.note)+'</td></tr>'}).join('')+'</tbody></table>'+(s.unmatched&&s.unmatched.length?'<div class="unm" style="margin-top:12px"><div class="unm-title">未照合</div><div class="chips">'+s.unmatched.map(function(u){return'<span class="chip">'+esc(u)+'</span>'}).join('')+'</div></div>':'')+'</div>'):'';
-    return'<div class="arc-card'+(ex?' ex':'')+'"><div class="arc-hd" onclick="togExp(\''+s.id+'\')"><div class="arc-info"><div class="arc-lbl">'+esc(s.label)+'</div><div class="arc-sub">'+ds+'　名簿：'+esc(s.rosterName)+'　全'+t+'名</div></div><div class="arc-stats"><span class="mini-st ms-p">出席&nbsp;'+p+'</span><span class="mini-st ms-a">欠席&nbsp;'+a+'</span>'+(u?'<span class="mini-st ms-u">困難&nbsp;'+u+'</span>':'')+'</div><div class="arc-del" onclick="event.stopPropagation()"><button class="btn btn-d btn-sm" onclick="delArc(\''+s.id+'\')">削除</button></div><div class="arc-chev">▼</div></div>'+det+'</div>';
+    var det=ex?('<div class="arc-detail"><table class="tbl" style="margin-top:4px"><thead><tr><th style="width:28%">名前</th><th style="width:18%">ステータス</th><th>備考</th><th style="width:22%">ステータス変更</th></tr></thead><tbody>'
+      +s.results.map(function(r,i){return'<tr><td class="td-name">'+esc(r.name)+'</td><td><span class="badge '+BC[r.status]+'">'+SL[r.status]+'</span></td><td class="td-note">'+esc(r.note)+'</td><td class="td-act">'+clsBtnsArc(s.id,i,r)+'</td></tr>'}).join('')
+      +'</tbody></table>'+(s.unmatched&&s.unmatched.length?'<div class="unm" style="margin-top:12px"><div class="unm-title">未照合</div><div class="chips">'+s.unmatched.map(function(u){return'<span class="chip">'+esc(u)+'</span>'}).join('')+'</div></div>':'')+'</div>'):'';
+    return'<div class="arc-card'+(ex?' ex':'')+'"><div class="arc-hd" onclick="togExp(\''+s.id+'\')">'
+      +'<div class="arc-info"><div class="arc-lbl">'+esc(s.label)+'</div><div class="arc-sub">'+ds+'　名簿：'+esc(s.rosterName)+'　全'+t+'名</div></div>'
+      +'<div class="arc-stats"><span class="mini-st ms-p">出席&nbsp;'+p+'</span><span class="mini-st ms-a">欠席&nbsp;'+a+'</span>'+(u?'<span class="mini-st ms-u">困難&nbsp;'+u+'</span>':'')+'</div>'
+      +'<button class="btn btn-d btn-sm" style="flex-shrink:0" onclick="event.stopPropagation();delArc(\''+s.id+'\')">削除</button>'
+      +'<div class="arc-chev">▼</div></div>'+det+'</div>';
   }).join('');
 }
 
@@ -977,42 +936,34 @@ function renderMtx(){
   var el=document.getElementById('mtx-sec');
   var m=buildMtx();if(!m||!m.sessions.length){el.innerHTML='';return}
   var c=absCount();
-  /* Build header: show name, append (2) for second occurrence */
   var nameCntH={};
   var hdr=m.members.map(function(mb){
     nameCntH[mb.name]=(nameCntH[mb.name]||0)+1;
     var dispNm=esc(mb.name)+(mb.occ>1?'<sub style="font-size:10px">('+mb.occ+')</sub>':'');
-    var key=mb.key;
-    var ab=(c[key]?c[key].absent+c[key].unknown:0);
+    var key=mb.key;var ab=(c[key]?c[key].absent+c[key].unknown:0);
     var cls=ab>=5?'mth-danger':ab>=3?'mth-warn':'';
     return'<th class="mth-mb '+cls+'">'+dispNm+'</th>';
   }).join('');
   var rows=m.sessions.map(function(s){
     var cells=m.members.map(function(mb){
-      var r=findByOcc(s,mb.name,mb.occ);
-      var st=r?r.status:'absent';
+      var r=findByOcc(s,mb.name,mb.occ);var st=r?r.status:'absent';
       if(st==='present')return'<td class="mc mc-p">✓</td>';
       if(st==='unknown')return'<td class="mc mc-u">?</td>';
       return'<td class="mc mc-a"></td>';
     }).join('');
     return'<tr><td class="mtd-sess">'+esc(s.label)+'</td>'+cells+'</tr>';
   }).join('');
-  el.innerHTML='<div class="div"></div>'
-    +'<div class="sub-hd">📊 集計マトリックス</div>'
+  el.innerHTML='<div class="div"></div><div class="sub-hd" style="margin-top:0"><span>📊 集計マトリックス</span></div>'
     +'<div class="matrix-outer"><table class="mtx"><thead><tr><th class="mth-sess">回</th>'+hdr+'</tr></thead><tbody>'+rows+'</tbody></table></div>'
     +'<div class="mtx-legend"><span>✓ 出席</span><span>? 特定困難</span><span>空白 欠席</span><span style="color:var(--amber)">⚠ 名前オレンジ：3回以上欠席</span><span style="color:var(--red)">⛔ 名前赤：5回以上欠席</span></div>'
-    +'<div class="copy-opts">'
-      +'<div class="copy-opts-label">📋 スプレッドシートへコピー</div>'
-      +'<button class="btn btn-p btn-sm" onclick="copyMtx(true)">ヘッダー付きでコピー</button>'
-      +'<button class="btn btn-s btn-sm" onclick="copyMtx(false)">値のみ（TRUE/FALSE）</button>'
-    +'</div>'
+    +'<div class="copy-opts"><div class="copy-opts-label">📋 スプレッドシートへコピー（全期間）</div>'
+    +'<button class="btn btn-p btn-sm" onclick="copyMtx(true)">ヘッダー付きでコピー</button>'
+    +'<button class="btn btn-s btn-sm" onclick="copyMtx(false)">値のみ（TRUE/FALSE）</button></div>'
     +'<p style="font-size:13px;color:var(--tx3);margin-top:8px">Googleスプレッドシートに貼り付けると、TRUE/FALSE をチェックボックスの値として直接使えます。</p>';
 }
 
 /* ── Utils ── */
-function copyText(t){
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).catch(function(){fbCopy(t)})}else fbCopy(t);
-}
+function copyText(t){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).catch(function(){fbCopy(t)})}else fbCopy(t)}
 function fbCopy(t){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta)}
 function toast(msg){var el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(function(){el.classList.remove('show')},2800)}
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
