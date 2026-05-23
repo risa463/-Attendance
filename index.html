@@ -117,14 +117,14 @@ select{cursor:pointer}
 .sc.sp .sc-n{color:var(--green)}
 .sc.sb .sc-n{color:var(--red)}
 .sc.su .sc-n{color:var(--amber)}
+/* magnifying glass (must come before .search-ic so position:absolute wins) */
+.magnifying_glass{display:inline-block;width:1em;height:1em;color:currentColor;font-size:18px}
+.magnifying_glass::before{position:absolute;top:0;left:0;width:.7em;height:.7em;box-sizing:border-box;border:.15em solid currentColor;border-radius:50%;background-color:transparent;content:""}
+.magnifying_glass::after{position:absolute;top:.05em;left:.52em;z-index:0;transform:rotate(-45deg);width:.15em;height:.9em;box-sizing:border-box;background-color:currentColor;content:""}
 /* Search */
 .search-wr{position:relative;margin-bottom:14px}
 .search-wr input{padding-left:38px}
-.search-ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:15px}
-/* magnifying glass */
-.magnifying_glass{display:inline-block;position:relative;width:1em;height:1em;color:#000;font-size:20px}
-.magnifying_glass::before{position:absolute;top:0;left:0;width:.7em;height:.7em;box-sizing:border-box;border:.15em solid currentColor;border-radius:50%;background-color:#fff;content:""}
-.magnifying_glass::after{position:absolute;top:0;left:50%;z-index:-1;transform:rotate(-45deg);width:.15em;height:1em;box-sizing:border-box;background-color:currentColor;content:""}
+.search-ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:16px}
 /* Table */
 .tbl-wr{overflow-x:auto}
 .tbl{width:100%;border-collapse:collapse;font-size:16px}
@@ -531,6 +531,8 @@ function parseAliases(raw){
   var result={};
   raw.split('\n').forEach(function(line){
     line=line.trim();if(!line)return;
+    /* support both half-width = and full-width ＝ */
+    line=line.replace(/\uff1d/g,'=');
     var idx=line.indexOf('=');if(idx<1)return;
     var nm=line.substring(0,idx).trim();
     var al=line.substring(idx+1).trim();
@@ -636,15 +638,19 @@ function doProcess(){
       else di.forEach(function(i,j){results.push({name:mbs[i],status:'unknown',autoStatus:'unknown',note:'同姓同名・特定困難（'+(j+1)+'人目）',manualOverride:false})});
     }
   });
-  /* Alias check: for absent members, check if any alias matches */
+  /* Alias check: for absent/unknown members, check all registered aliases */
   results.forEach(function(r){
-    if(r.status!=='absent')return;
-    var als=rosterAliases[r.name]||[];
-    for(var ai=0;ai<als.length;ai++){
-      var anorm=rmsp(als[ai]);
+    if(r.status==='present')return;
+    /* Look up by exact name AND by rmsp-normalized name (handles stored-name spaces) */
+    var als=(rosterAliases[r.name]||[]).concat(rosterAliases[rmsp(r.name)]||[]);
+    /* deduplicate */
+    var alsSeen={};var alsUniq=[];
+    als.forEach(function(a){if(!alsSeen[a]){alsSeen[a]=1;alsUniq.push(a)}});
+    for(var ai=0;ai<alsUniq.length;ai++){
+      var anorm=rmsp(alsUniq[ai]);
       if(anorm&&norm.indexOf(anorm)!==-1){
         r.status='present';r.autoStatus='present';
-        r.note='別名一致：「'+als[ai]+'」';break;
+        r.note='別名一致：「'+alsUniq[ai]+'」';r.manualOverride=false;break;
       }
     }
   });
